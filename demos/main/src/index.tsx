@@ -1,6 +1,6 @@
 import { h, tag, render, Component } from "wpa";
 
-import ContainerTag from "./container.tsx";
+import ContainerTag from "./container";
 
 import apps from "./apps.json";
 
