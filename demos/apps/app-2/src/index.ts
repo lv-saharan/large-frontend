@@ -1,5 +1,13 @@
-import { AppType, IAppManifest, IInit } from "definition";
+import { AppType, IAppManifest, IRender } from "definition";
 
+export const render: IRender = (
+  { registerCsses, registerScripts, registerStylesheets },
+  props
+) => {
+  const iframe = document.createElement("iframe");
+  iframe.src = "https://www.baidu.com";
+  return iframe;
+};
 export const manifest: IAppManifest = {
   get name() {
     return "第三个App定义";
@@ -7,9 +15,7 @@ export const manifest: IAppManifest = {
   get shortName() {
     return "APP-2";
   },
-  get startUrl() {
-    return "https://www.baidu.com/";
-  },
+
   get appType() {
     return AppType.IFRAME;
   },

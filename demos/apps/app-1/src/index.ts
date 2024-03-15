@@ -1,12 +1,12 @@
-import { AppType, IAppManifest, IInit } from "definition";
+import { AppType, IAppManifest, IRender } from "definition";
 
-export const render: IInit = ({ registerCsses }) => {
+export const render: IRender = ({ registerCsses }, props) => {
   registerCsses(`
   :host{
     display:block;
     line-height:1.5;
     font-size:14px;
-    color:blue;
+    color:#333;
   }`);
   const app = document.createElement("div");
 
@@ -19,12 +19,18 @@ export const render: IInit = ({ registerCsses }) => {
     li.innerText = `${key}:${manifest[key]}`;
     ul.appendChild(li);
   }
+
+  for (let key in props) {
+    const li = document.createElement("li");
+    li.innerText = `setting-${key}:${props[key]}`;
+    ul.appendChild(li);
+  }
   return app;
 };
 
 export const manifest: IAppManifest = {
   get name() {
-    return "第二个App定义";
+    return "第1个App定义";
   },
   get shortName() {
     return "APP-1";

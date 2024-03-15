@@ -2,8 +2,12 @@ import { IOn, IOff, IEmit } from "./IMessage";
 import { IRegisterCsses } from "./IRegisterCsses";
 import { IRegisterStyleSheets } from "./IRegisterStyleSheets";
 import { IRegisterSripts } from "./IRegisterScripts";
+import { IAppManifest } from "./IAppManifest";
 
-export interface IInit {
+/**
+ * 创建自己的对象
+ */
+export interface IRender {
   (
     {
       registerCsses,
@@ -24,4 +28,11 @@ export interface IMount {
 
 export interface IUnMount {
   ({ off }: { off: IOff }, props: any): void | Promise<void>;
+}
+
+export interface IApp {
+  render?: IRender;
+  mount?: IMount;
+  unMount?: IUnMount;
+  manifest: IAppManifest;
 }

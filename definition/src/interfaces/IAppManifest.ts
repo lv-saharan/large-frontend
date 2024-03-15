@@ -19,9 +19,9 @@ export interface IAppManifest {
   readonly appType: AppType;
 
   /**
-   * 应用启动地址
+   * 应用帮助文档地址
    */
-  readonly startUrl?: string;
+  readonly helpUrl?: string;
 
   /**
    * 不同尺寸的图标
