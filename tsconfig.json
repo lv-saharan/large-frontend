@@ -1,0 +1,23 @@
+{
+  "references": [],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "module": "NodeNext",
+    "target": "ES6",
+    "allowJs": true,
+    "jsx": "react",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "h.f",
+    "isolatedModules": true,
+    "moduleResolution": "NodeNext",
+    "experimentalDecorators": true /* 启用装饰器 */,
+    "emitDecoratorMetadata": true /* 启用装饰器元数据 */,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "lib": ["ES2018", "DOM"],
+    "paths": {
+      "definition": ["./definition/src/index.ts"]
+    }
+  }
+}
+// https://code.visualstudio.com/docs/languages/jsconfig

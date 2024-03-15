@@ -1,0 +1,21 @@
+{
+  "name": "large-frontend",
+  "version": "1.0.0",
+  "description": "large-frontend",
+  "author": "jun",
+  "type": "module",
+  "scripts": {
+    "demos": "node demos/esbuild.js dev"
+  },
+  "dependencies": {
+    "mitt": "^3.0.1",
+    "wpa": "^1.0.12",
+    "wpa-ui": "^1.0.10"
+  },
+  "devDependencies": {
+    "@types/node": "20.11.20",
+    "esbuild": "0.19.11",
+    "esbuild-sass-plugin": "^2.10.0",
+    "local-dev-server": "^1.0.19"
+  }
+}
