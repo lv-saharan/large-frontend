@@ -15,7 +15,10 @@ class MainApp extends Component {
     color: red;
   }
   ul{
+    margin: 0;
+    padding: 0;
     display: flex;
+    flex-wrap: wrap;
   }
   li{
     list-style: none;

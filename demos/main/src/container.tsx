@@ -38,13 +38,12 @@ class AppContainer extends Component {
   async installed() {
     switch (this.app.manifest.appType) {
       case AppType.IFRAME:
-       
         break;
       case AppType.PART:
     }
 
     if (typeof this.app.render == "function") {
-      const app = await this.app.render(
+      let app = await this.app.render(
         {
           registerCsses: (csses) => {
             this.cssss = csses;
@@ -54,7 +53,11 @@ class AppContainer extends Component {
         this.props.settings
       );
 
-      this.$app.appendChild(app);
+      if (this.app.manifest.appType === AppType.PART) {
+        render(app, this.$app);
+      } else {
+        this.$app.appendChild(app);
+      }
     }
   }
   render(props) {
