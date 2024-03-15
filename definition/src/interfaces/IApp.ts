@@ -3,6 +3,7 @@ import { IRegisterCsses } from "./IRegisterCsses";
 import { IRegisterStyleSheets } from "./IRegisterStyleSheets";
 import { IRegisterSripts } from "./IRegisterScripts";
 import { IAppManifest } from "./IAppManifest";
+import { IWindow, IDocument } from "./IHost";
 
 /**
  * 创建自己的对象
@@ -18,7 +19,9 @@ export interface IRender {
       registerScripts?: IRegisterSripts;
       registerStylesheets?: IRegisterStyleSheets;
     },
-    props: any
+    props: any,
+    window?: IWindow,
+    document?: IDocument
   ): Promise<any> | any;
 }
 
