@@ -10,6 +10,7 @@ export const render: IRender = (
     color:red;
   }
   `);
+  registerStylesheets(new URL("./css/app3.css", import.meta.url).href);
   return <div>第三个App定义</div>;
 };
 export const manifest: IAppManifest = {

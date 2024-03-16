@@ -54,9 +54,13 @@ class AppContainer extends Component {
     if (typeof this.app.render == "function") {
       let app = await this.app.render(
         {
-          registerCsses: (csses) => {
+          registerCsses: (...csses) => {
             this.cssss = csses;
-            this.updateStyle();
+            return this.updateStyle();
+          },
+          registerStylesheets: (...stylesheets) => {
+            this.stylesheets = stylesheets;
+            return this.updateStyle();
           },
         },
         this.props.settings
