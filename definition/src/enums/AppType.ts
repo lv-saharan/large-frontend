@@ -2,6 +2,8 @@ export enum AppType {
   PART = "PART",
   WEBCOMPONENT = "WEBCOMPONENT",
   IFRAME = "IFRAME",
+  WPA = "WPA",
+  OMI = "OMI",
   VUE = "VUE",
   ANGULAR = "ANGULAR",
   REACT = "REACT",
