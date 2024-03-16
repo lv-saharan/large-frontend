@@ -2,12 +2,10 @@ import { h, tag, render, Component } from "wpa";
 
 import ContainerTag from "./container";
 
-import css from "./index.scss" ;
+import css from "./index.scss";
 
 import apps from "./apps.json";
-
-import { assert } from "console";
-
+ 
 console.log("apps", apps);
 
 const MainTag = "com.hh-main";
