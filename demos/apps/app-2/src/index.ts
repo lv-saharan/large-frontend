@@ -4,8 +4,14 @@ export const render: IRender = (
   { registerCsses, registerScripts, registerStylesheets },
   props
 ) => {
+  registerCsses(`
+    iframe{
+      border:0;
+      height:36rem;
+    }
+  `)
   const iframe = document.createElement("iframe");
-  iframe.src = "https://www.baidu.com";
+  iframe.src = "/demos/main/src/apps.json";
   return iframe;
 };
 export const manifest: IAppManifest = {

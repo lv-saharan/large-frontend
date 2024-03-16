@@ -12,6 +12,7 @@ export const render: IRender = ({ registerCsses }, props) => {
 
   const ul = document.createElement("ul");
 
+
   app.appendChild(ul);
 
   for (let key in manifest) {
@@ -25,6 +26,8 @@ export const render: IRender = ({ registerCsses }, props) => {
     li.innerText = `setting-${key}:${props[key]}`;
     ul.appendChild(li);
   }
+  document.body.innerHTML='<h1>111</h1>'
+  alert(123)
   return app;
 };
 

@@ -1,3 +1,9 @@
-export interface IWindow extends WindowProxy {}
+import { IApp } from "./IApp";
 
-export interface IDocument extends Document {}
+export interface IWindow {}
+
+export interface IDocument {}
+
+export interface ILoadApp {
+  (src: string): Promise<IApp>;
+}
