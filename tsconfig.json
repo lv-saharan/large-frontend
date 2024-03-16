@@ -1,5 +1,6 @@
 {
   "references": [],
+
   "exclude": ["node_modules"],
   "compilerOptions": {
     "module": "ESNext",

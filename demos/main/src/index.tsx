@@ -2,7 +2,11 @@ import { h, tag, render, Component } from "wpa";
 
 import ContainerTag from "./container";
 
+import css from "./index.scss" ;
+
 import apps from "./apps.json";
+
+import { assert } from "console";
 
 console.log("apps", apps);
 
@@ -10,20 +14,7 @@ const MainTag = "com.hh-main";
 
 @tag(MainTag)
 class MainApp extends Component {
-  css = `
-  :host{
-    color: red;
-  }
-  ul{
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-  }
-  li{
-    list-style: none;
-  }
-  `;
+  css = css;
   render() {
     return (
       <div class="container">
