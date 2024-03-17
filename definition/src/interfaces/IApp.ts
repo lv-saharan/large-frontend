@@ -14,12 +14,14 @@ export interface IRender {
       registerCsses,
       registerScripts,
       registerStylesheets,
+      container,
       window,
       document,
     }: {
       registerCsses?: IRegisterCsses;
       registerScripts?: IRegisterSripts;
       registerStylesheets?: IRegisterStyleSheets;
+      container?: HTMLElement;
       window?: IWindow;
       document?: IDocument;
     },
@@ -40,4 +42,5 @@ export interface IApp {
   render?: IRender;
   mount?: IMount;
   unMount?: IUnMount;
+  [key: string]: any;
 }

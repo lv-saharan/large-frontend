@@ -1,5 +1,3 @@
-import { off } from "process";
-
 export interface IHandler<T = unknown> {
   (event: T, data: any): void;
 }

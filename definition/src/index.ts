@@ -6,6 +6,8 @@ export * from "./interfaces/IHost";
 export * from "./interfaces/IRegisterCsses";
 export * from "./interfaces/IRegisterStyleSheets";
 export * from "./interfaces/IRegisterScripts";
+
+export * from "./interfaces/IComponent";
 export * from "./types";
 
 export const Version: string = "1.0.0";
