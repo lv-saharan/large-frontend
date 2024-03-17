@@ -1,6 +1,11 @@
 import { ILoadApp, IApp } from "definition";
+const cache: Map<string, Promise<IApp>> = new Map();
 
 export const loadApp: ILoadApp = (src) => {
+  const key = src;
+  if (cache.has(key)) {
+    return cache.get(key);
+  }
   const iframe = document.createElement("iframe");
   iframe.style.display = "none";
   document.body.appendChild(iframe);
@@ -15,20 +20,22 @@ export const loadApp: ILoadApp = (src) => {
       const appLoadEvent =new CustomEvent("appLoad",{detail:app})
       window.dispatchEvent(appLoadEvent)
   }catch(exc){
-    const appLoadErrorEvent =new CustomEvent("appLoadError",{detail:exc})
-    window.dispatchEvent(appLoadErrorEvent)
+    const appErrorEvent =new CustomEvent("appError",{detail:exc})
+    window.dispatchEvent(appErrorEvent)
   }
 
 `;
   iframeDocument.head.appendChild(iframeScript);
-
-  return new Promise((resolve, reject) => {
+  const promise = new Promise((resolve, reject) => {
     iframeWindow.addEventListener("appLoad", (e) => {
       resolve(e["detail"]);
     });
 
-    iframeWindow.addEventListener("appLoadError", (e) => {
-      reject(e["detail"]);
+    iframeWindow.addEventListener("appError", (e) => {
+      reject(e);
     });
-  });
+  }) as Promise<IApp>;
+
+  cache.set(key, promise);
+  return promise;
 };

@@ -1,4 +1,4 @@
-import { AppType, IAppManifest, IRender } from "definition";
+import { AppType, IAppManifest, IRender, Version } from "definition";
 
 export const render: IRender = (
   { registerCsses, registerScripts, registerStylesheets },
@@ -36,5 +36,11 @@ export const manifest: IAppManifest = {
   },
   get singleton() {
     return false;
+  },
+  get appVersion() {
+    return "1.0.0";
+  },
+  get definitionVersion() {
+    return Version;
   },
 };

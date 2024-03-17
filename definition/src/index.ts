@@ -7,3 +7,5 @@ export * from "./interfaces/IRegisterCsses";
 export * from "./interfaces/IRegisterStyleSheets";
 export * from "./interfaces/IRegisterScripts";
 export * from "./types";
+
+export const Version: string = "1.0.0";

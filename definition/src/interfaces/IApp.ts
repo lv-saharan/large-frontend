@@ -14,14 +14,16 @@ export interface IRender {
       registerCsses,
       registerScripts,
       registerStylesheets,
+      window,
+      document,
     }: {
       registerCsses?: IRegisterCsses;
       registerScripts?: IRegisterSripts;
       registerStylesheets?: IRegisterStyleSheets;
+      window?: IWindow;
+      document?: IDocument;
     },
-    props: any,
-    window?: IWindow,
-    document?: IDocument
+    props: any
   ): Promise<any> | any;
 }
 
@@ -34,8 +36,8 @@ export interface IUnMount {
 }
 
 export interface IApp {
+  manifest: IAppManifest;
   render?: IRender;
   mount?: IMount;
   unMount?: IUnMount;
-  manifest: IAppManifest;
 }

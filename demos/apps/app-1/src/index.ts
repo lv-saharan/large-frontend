@@ -1,4 +1,4 @@
-import { AppType, IAppManifest, IRender } from "definition";
+import { AppType, IAppManifest, IRender, Version } from "definition";
 
 export const render: IRender = ({ registerCsses }, props) => {
   registerCsses(`
@@ -11,7 +11,6 @@ export const render: IRender = ({ registerCsses }, props) => {
   const app = document.createElement("div");
 
   const ul = document.createElement("ul");
-
 
   app.appendChild(ul);
 
@@ -26,8 +25,8 @@ export const render: IRender = ({ registerCsses }, props) => {
     li.innerText = `setting-${key}:${props[key]}`;
     ul.appendChild(li);
   }
-  document.body.innerHTML='<h1>111</h1>'
-  alert(123)
+  document.body.innerHTML = "<h1>111</h1>";
+  alert(123);
   return app;
 };
 
@@ -53,5 +52,11 @@ export const manifest: IAppManifest = {
   },
   get singleton() {
     return false;
+  },
+  get appVersion() {
+    return "1.0.0";
+  },
+  get definitionVersion() {
+    return Version;
   },
 };

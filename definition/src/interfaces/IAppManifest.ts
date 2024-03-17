@@ -18,6 +18,19 @@ export interface IAppManifest {
    */
   readonly appType: AppType;
 
+  
+  /**
+   * 应用版本
+   * 可以在加载时与配置进行校验
+   */
+  readonly appVersion: string;
+
+  /**
+   * 定义版本
+   * 确定一个应用使用的定义版本，对不同定义版本可以做兼容或检查
+   */
+  readonly definitionVersion: string;
+
   /**
    * 应用帮助文档地址
    */

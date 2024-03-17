@@ -8,6 +8,8 @@ export type GetCssFunction = () => CssEntryType;
 export type CssEntryType =
   | string
   | CSSStyleSheet
-  | GetCssFunction
   | Array<CssEntryType>
-  | Promise<CssEntryType>;
+  | Promise<CssEntryType>
+  | GetCssFunction;
+
+ 

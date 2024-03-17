@@ -1,4 +1,4 @@
-import { AppType, IAppManifest, IRender } from "definition";
+import { AppType, IAppManifest, IRender, Version } from "definition";
 import { h, tag, Component } from "wpa";
 
 export const render: IRender = (
@@ -35,5 +35,11 @@ export const manifest: IAppManifest = {
   },
   get singleton() {
     return false;
+  },
+  get appVersion() {
+    return "1.0.0";
+  },
+  get definitionVersion() {
+    return Version;
   },
 };
