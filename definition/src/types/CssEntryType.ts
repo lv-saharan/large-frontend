@@ -11,7 +11,3 @@ export type CssEntryType =
   | Array<CssEntryType>
   | Promise<CssEntryType>
   | GetCssFunction;
-
- 
-
-

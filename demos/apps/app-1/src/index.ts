@@ -6,7 +6,7 @@ import {
   Version,
 } from "definition";
 
-export const render: IRender = ({ registerCsses }, props) => {
+export const render: IRender = (props, { registerCsses }) => {
   registerCsses(`
   :host{
     display:block;

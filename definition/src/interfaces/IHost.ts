@@ -33,8 +33,9 @@ export interface IRegisterApp {
 export interface IHost {
   readonly apps?: IApp[];
   registerApp?: IRegisterApp;
-  
+
   loadApp?: ILoadApp;
+  
   routeTo?: <T>(route: string) => Promise<T>;
 
   loadCss?: ILoadCss;

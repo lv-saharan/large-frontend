@@ -1,9 +1,15 @@
-import { AppType, IAppManifest, IRender, ResourceType, Version } from "definition";
+import {
+  AppType,
+  IAppManifest,
+  IRender,
+  ResourceType,
+  Version,
+} from "definition";
 import { h, tag, Component } from "wpa";
 
 export const render: IRender = (
-  { registerCsses, registerScripts, registerStylesheets },
-  props
+  props,
+  { registerCsses, registerStylesheets }
 ) => {
   registerCsses(`
   :host{

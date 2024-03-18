@@ -52,19 +52,17 @@ class AppContainer extends Component {
     }
 
     if (typeof this.app.render == "function") {
-      let app = await this.app.render(
-        {
-          registerCsses: (...csses) => {
-            this.cssss = csses;
-            return this.updateStyle();
-          },
-          registerStylesheets: (...stylesheets) => {
-            this.stylesheets = stylesheets;
-            return this.updateStyle();
-          },
+      let app = await this.app.render(this.props.settings, {
+        container: this.$app,
+        registerCsses: (...csses) => {
+          this.cssss = csses;
+          return this.updateStyle();
         },
-        this.props.settings
-      );
+        registerStylesheets: (...stylesheets) => {
+          this.stylesheets = stylesheets;
+          return this.updateStyle();
+        },
+      });
 
       if (this.app.manifest.appType === AppType.PART) {
         render(app, this.$app);

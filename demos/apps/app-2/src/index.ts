@@ -7,8 +7,8 @@ import {
 } from "definition";
 
 export const render: IRender = (
-  { registerCsses, registerScripts, registerStylesheets },
-  props
+  props,
+  { registerCsses, registerStylesheets }
 ) => {
   registerCsses(`
     iframe{
