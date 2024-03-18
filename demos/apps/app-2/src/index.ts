@@ -1,4 +1,10 @@
-import { AppType, IAppManifest, IRender, Version } from "definition";
+import {
+  AppType,
+  IAppManifest,
+  IRender,
+  ResourceType,
+  Version,
+} from "definition";
 
 export const render: IRender = (
   { registerCsses, registerScripts, registerStylesheets },
@@ -9,7 +15,7 @@ export const render: IRender = (
       border:0;
       height:36rem;
     }
-  `)
+  `);
   const iframe = document.createElement("iframe");
   iframe.src = "/demos/main/src/apps.json";
   return iframe;
@@ -37,10 +43,13 @@ export const manifest: IAppManifest = {
   get singleton() {
     return false;
   },
-  get appVersion() {
+  get version() {
     return "1.0.0";
   },
   get definitionVersion() {
     return Version;
+  },
+  get resourceType() {
+    return ResourceType.APP;
   },
 };

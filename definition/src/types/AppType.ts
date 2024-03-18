@@ -1,5 +1,6 @@
-
-
+/**
+ * 应用程序类型
+ */
 export enum AppType {
   PART = "PART",
   WEBCOMPONENT = "WEBCOMPONENT",

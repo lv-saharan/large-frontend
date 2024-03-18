@@ -1,43 +1,10 @@
-import { IOn, IOff, IEmit } from "./IMessage";
-import { IRegisterCsses } from "./IRegisterCsses";
-import { IRegisterStyleSheets } from "./IRegisterStyleSheets";
-import { IRegisterSripts } from "./IRegisterScripts";
 import { IAppManifest } from "./IAppManifest";
-import { IWindow, IDocument } from "./IHost";
+import { IRender } from "./IRender";
+import { IMount } from "./IMount";
+import { IUnMount } from "./IUnMount";
+import { IResource } from "./IResource";
 
-/**
- * 创建自己的对象
- */
-export interface IRender {
-  (
-    {
-      registerCsses,
-      registerScripts,
-      registerStylesheets,
-      container,
-      window,
-      document,
-    }: {
-      registerCsses?: IRegisterCsses;
-      registerScripts?: IRegisterSripts;
-      registerStylesheets?: IRegisterStyleSheets;
-      container?: HTMLElement;
-      window?: IWindow;
-      document?: IDocument;
-    },
-    props: any
-  ): Promise<any> | any;
-}
-
-export interface IMount {
-  ({ on, emit }: { on: IOn; emit: IEmit }, props?: any): void | Promise<void>;
-}
-
-export interface IUnMount {
-  ({ off }: { off: IOff }, props: any): void | Promise<void>;
-}
-
-export interface IApp {
+export interface IApp extends IResource {
   manifest: IAppManifest;
   render?: IRender;
   mount?: IMount;

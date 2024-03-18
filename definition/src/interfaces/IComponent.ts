@@ -1,5 +1,12 @@
+import { IComponentManifest } from "./IComponentManifest";
+import { IRender, IRenderComponent } from "./IRender";
+import { IResource } from "./IResource";
+
 /**
  * 组件接口，
- * 目前是个空的
  */
-export interface IComponent {}
+export interface IComponent extends IResource {
+  manifest: IComponentManifest;
+  render?: IRenderComponent;
+  [key: string]: any;
+}
