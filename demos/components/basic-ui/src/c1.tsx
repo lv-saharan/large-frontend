@@ -1,10 +1,12 @@
 import { h, tag, Component } from "wpa";
 
-const Tag = "com.hh.ui-c1";
-@tag(Tag)
+import { createManifest } from "./util";
+
+export const manifest = createManifest("c1");
+
+@tag(manifest.tag)
 class C1 extends Component {
   render() {
     return <h2>C1</h2>;
   }
 }
-export { Tag as C1Tag };

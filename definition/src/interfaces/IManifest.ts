@@ -2,7 +2,7 @@ import { ResourceType } from "../types/ResourceType";
 
 export interface IManifest {
   /**
-   * 应用名称
+   * 名称
    */
   readonly name: string;
 

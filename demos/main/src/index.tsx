@@ -13,15 +13,21 @@ const MainTag = "com.hh-main";
 
 @tag(MainTag)
 class MainApp extends Component {
-  loadComponent(src) {
-    return import(src);
+  private components: IComponent[] = [];
+  async loadComponents(src) {
+    const { default: components, ...component } = await import(src);
+    if (component?.manifest) {
+      this.components.push(component);
+    }
+    if (Array.isArray(components)) {
+      this.components.push(...components.filter((item) => item.manifest));
+    }
+
+    console.log(this.components);
   }
   basicUI: IComponent = null;
   async install() {
-    this.basicUI = await this.loadComponent(
-      "/demos/components/basic-ui/index.js"
-    );
-    console.log("basic-ui", this.basicUI);
+    await this.loadComponents("/demos/components/basic-ui/index.js");
   }
   css = css;
   render() {
@@ -30,9 +36,15 @@ class MainApp extends Component {
         <fieldset>
           <legend>components</legend>
           <ul>
-            {Object.values(this.basicUI.manifest.tags).map((Tag) => (
-              <Tag></Tag>
-            ))}
+            {this.components.map((item) => {
+              return (
+                <li>
+                  {item.manifest.name}
+                  <hr />
+                  {item.render ? item.render() : <item.manifest.tag/>}
+                </li>
+              );
+            })}
           </ul>
         </fieldset>
         <h1>Main App</h1>

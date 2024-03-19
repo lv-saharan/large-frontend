@@ -8,17 +8,17 @@ export interface IWindow extends Window {}
 export interface IDocument {}
 
 export interface ILoadApp {
-  (src: string): Promise<IApp>;
+  (src: string): Promise<IApp> | Promise<IApp[]>;
 }
 export interface ILoadCss {
-  (src: string): Promise<ICss>;
+  (src: string): Promise<ICss> | Promise<ICss[]>;
 }
 export interface ILoadAsset {
-  (src: string): Promise<IAsset>;
+  (src: string): Promise<IAsset> | Promise<IAsset[]>;
 }
 
 export interface ILoadComponent {
-  (src: string): Promise<IComponent>;
+  (src: string): Promise<IComponent> | Promise<IComponent[]>;
 }
 export interface IRegisterApp {
   (
@@ -35,7 +35,7 @@ export interface IHost {
   registerApp?: IRegisterApp;
 
   loadApp?: ILoadApp;
-  
+
   routeTo?: <T>(route: string) => Promise<T>;
 
   loadCss?: ILoadCss;

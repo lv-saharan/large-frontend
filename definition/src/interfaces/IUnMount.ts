@@ -1,22 +1,14 @@
 import { IDocument, IWindow } from "./IHost";
 import { IMessageOff } from "./IMessageOff";
 
-export interface IUnMount {
-  ({ off }: { off: IMessageOff }): Promise<void> | void;
+export interface IUnMountExtendArgs {
+  off: IMessageOff;
+  element: HTMLElement;
+  container: HTMLElement;
+  window?: IWindow;
+  document?: IDocument;
 }
 
 export interface IUnMount {
-  ({
-    off,
-    element,
-    container,
-    window,
-    document,
-  }?: {
-    off: IMessageOff;
-    element: HTMLElement;
-    container: HTMLElement;
-    window?: IWindow;
-    document?: IDocument;
-  }): Promise<void> | void;
+  (args: IUnMountExtendArgs): Promise<void> | void;
 }

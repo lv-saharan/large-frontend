@@ -2,9 +2,11 @@ import { IManifest } from "./IManifest";
 
 export interface IComponentManifest extends IManifest {
   /**
-   * 组件可以一次导入多个标签
+   * 组件标签
    */
-  tags: {
-    [key: string]: string;
-  };
+  readonly tag: string;
+  /**
+   * 组件标签前缀
+   */
+  readonly tagPrexif: string;
 }
