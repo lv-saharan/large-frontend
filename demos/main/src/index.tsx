@@ -1,7 +1,7 @@
 import { h, tag, render, Component } from "wpa";
 
 import ContainerTag from "./container";
-
+import ComponentContainerTag from "./component-container";
 import css from "./index.scss";
 
 import apps from "./apps.json";
@@ -26,6 +26,7 @@ class MainApp extends Component {
     console.log(this.components);
   }
   basicUI: IComponent = null;
+
   async install() {
     await this.loadComponents("/demos/components/basic-ui/index.js");
   }
@@ -41,7 +42,11 @@ class MainApp extends Component {
                 <li>
                   {item.manifest.name}
                   <hr />
-                  {item.render ? item.render() : <item.manifest.tag/>}
+                  {item.render ? (
+                    <ComponentContainerTag component={item} />
+                  ) : (
+                    <item.manifest.tag />
+                  )}
                 </li>
               );
             })}

@@ -32,6 +32,7 @@ export interface IRegisterApp {
 }
 export interface IHost {
   readonly apps?: IApp[];
+  
   registerApp?: IRegisterApp;
 
   loadApp?: ILoadApp;

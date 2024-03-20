@@ -5,6 +5,7 @@ import {
   ResourceType,
   Version,
 } from "definition";
+import { AppSharedInfo } from "../../appSharedInfo";
 
 export const render: IRender = (
   props,
@@ -22,7 +23,7 @@ export const render: IRender = (
 };
 export const manifest: IAppManifest = {
   get name() {
-    return "第三个App定义";
+    return "SECOND-APP";
   },
   get shortName() {
     return "APP-2";
@@ -31,25 +32,13 @@ export const manifest: IAppManifest = {
   get appType() {
     return AppType.IFRAME;
   },
-  get author() {
-    return "ljj";
-  },
-  get phone() {
-    return "12345";
-  },
-  get description() {
-    return "app -2 iframe baidu";
-  },
+
   get singleton() {
     return false;
   },
   get version() {
     return "1.0.0";
   },
-  get definitionVersion() {
-    return Version;
-  },
-  get resourceType() {
-    return ResourceType.APP;
-  },
+
+  ...AppSharedInfo,
 };

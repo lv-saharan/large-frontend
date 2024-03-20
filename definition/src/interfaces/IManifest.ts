@@ -1,4 +1,6 @@
 import { ResourceType } from "../types/ResourceType";
+import { VersionType } from "../types/VersionType";
+import { IManifestExtendInfo } from "./IManifestExtendInfo";
 
 export interface IManifest {
   /**
@@ -20,30 +22,9 @@ export interface IManifest {
    * 定义版本
    * 确定一个应用使用的定义版本，对不同定义版本可以做兼容或检查
    */
-  readonly definitionVersion: string;
-
-  /**
-   * 帮助文档地址
-   */
-  readonly helpUrl?: string;
-
-  /**
-   * 作者
-   */
-  readonly author: string;
-  /**
-   * 联系电话
-   */
-  readonly phone: string;
-  /**
-   * 应用描述
-   */
-  readonly description: string;
-
+  readonly definitionVersion: VersionType;
   /**
    * 扩展信息
    */
-  readonly extendInfo?: any;
+  readonly info: IManifestExtendInfo;
 }
-
- 

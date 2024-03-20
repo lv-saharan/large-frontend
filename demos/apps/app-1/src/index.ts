@@ -2,9 +2,9 @@ import {
   AppType,
   IAppManifest,
   IRender,
-  ResourceType,
-  Version,
 } from "definition";
+
+import { AppSharedInfo } from "../../appSharedInfo";
 
 export const render: IRender = (props, { registerCsses }) => {
   registerCsses(`
@@ -38,7 +38,7 @@ export const render: IRender = (props, { registerCsses }) => {
 
 export const manifest: IAppManifest = {
   get name() {
-    return "第1个App定义";
+    return "FIRST-APP";
   },
   get shortName() {
     return "APP-1";
@@ -47,25 +47,13 @@ export const manifest: IAppManifest = {
   get appType() {
     return AppType.NATIVE;
   },
-  get author() {
-    return "ljj";
-  },
-  get phone() {
-    return "12345";
-  },
-  get description() {
-    return "app -1";
-  },
+
   get singleton() {
     return false;
   },
   get version() {
     return "1.0.0";
   },
-  get definitionVersion() {
-    return Version;
-  },
-  get resourceType() {
-    return ResourceType.APP;
-  },
+
+  ...AppSharedInfo,
 };

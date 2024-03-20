@@ -36,9 +36,30 @@ class AppContainer extends Component {
   };
 
   private app: IApp;
+  private element: any;
   async install() {
-    this.app = await loadApp(`${this.props.url}/index.js`);
+    //目前只实现单应用模式
+    this.app = (await loadApp(`${this.props.url}/index.js`)) as IApp;
+    switch (this.app.manifest.definitionVersion as string) {
+      case "1.0.0":
+        break;
+      case "2.0.0":
+        break;
+    }
 
+    if (typeof this.app.render == "function") {
+      this.element = await this.app.render(this.props.settings, {
+        container: this.$app,
+        registerCsses: (...csses) => {
+          this.cssss = csses;
+          return null;
+        },
+        registerStylesheets: (...stylesheets) => {
+          this.stylesheets = stylesheets;
+          return null;
+        },
+      });
+    }
     console.log(this.app);
   }
   get $app() {
@@ -50,32 +71,18 @@ class AppContainer extends Component {
         break;
       case AppType.PART:
     }
-
-    if (typeof this.app.render == "function") {
-      let app = await this.app.render(this.props.settings, {
-        container: this.$app,
-        registerCsses: (...csses) => {
-          this.cssss = csses;
-          return this.updateStyle();
-        },
-        registerStylesheets: (...stylesheets) => {
-          this.stylesheets = stylesheets;
-          return this.updateStyle();
-        },
-      });
-
-      if (this.app.manifest.appType === AppType.PART) {
-        render(app, this.$app);
-      } else {
-        this.$app.appendChild(app);
-      }
+    if (this.app.manifest.appType === AppType.PART) {
+    } else {
+      this.$app.appendChild(this.element);
     }
   }
   render(props) {
     return (
       <main>
         <h2>{props.settings?.title}</h2>
-        <div id="app"></div>
+        <div id="app">
+          {this.app.manifest.appType === AppType.PART ? this.element : null}
+        </div>
       </main>
     );
   }

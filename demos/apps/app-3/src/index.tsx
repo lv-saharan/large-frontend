@@ -7,6 +7,8 @@ import {
 } from "definition";
 import { h, tag, Component } from "wpa";
 
+import { AppSharedInfo } from "../../appSharedInfo";
+
 export const render: IRender = (
   props,
   { registerCsses, registerStylesheets }
@@ -30,25 +32,12 @@ export const manifest: IAppManifest = {
   get appType() {
     return AppType.PART;
   },
-  get author() {
-    return "ljj";
-  },
-  get phone() {
-    return "12345";
-  },
-  get description() {
-    return "app -3";
-  },
+
   get singleton() {
     return false;
   },
   get version() {
     return "1.0.0";
   },
-  get definitionVersion() {
-    return Version;
-  },
-  get resourceType() {
-    return ResourceType.APP;
-  },
+  ...AppSharedInfo,
 };

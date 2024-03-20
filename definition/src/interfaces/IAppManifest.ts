@@ -6,9 +6,13 @@ import { IManifest } from "./IManifest";
  */
 export interface IAppManifest extends IManifest {
   /**
+   * 应用的路径
+   */
+  readonly path?: string;
+  /**
    * 应用的标签
    */
-  tag?: string;
+  readonly tag?: string;
   /**
    * 应用短名称，用于菜单、标签等
    */

@@ -3,11 +3,12 @@ export * from "./types/AppType";
 export * from "./types/CssEntryType";
 
 export * from "./interfaces/IManifest";
+export * from "./interfaces/IManifestExtendInfo";
+
 export * from "./interfaces/IAppManifest";
 export * from "./interfaces/IComponentManifest";
 export * from "./interfaces/ICssManifest";
 export * from "./interfaces/IAssetManifest";
-
 
 export * from "./interfaces/IHost";
 export * from "./interfaces/IApp";
@@ -18,6 +19,8 @@ export * from "./interfaces/ICss";
 export * from "./interfaces/IMount";
 export * from "./interfaces/IUnMount";
 export * from "./interfaces/IRender";
+export * from "./interfaces/IRenderExtendArgs";
+export * from "./interfaces/IUpdate";
 
 export * from "./interfaces/IMessage";
 export * from "./interfaces/IMessageEmit";
@@ -32,4 +35,4 @@ export * from "./types/CssEntryType";
 export * from "./types/AppType";
 export * from "./types/ResourceType";
 
-export const Version: string = "1.0.0";
+export * from "./types/VersionType";
