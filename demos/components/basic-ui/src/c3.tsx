@@ -12,6 +12,9 @@ setInterval(() => {
 export const render: IRender = (props) => {
   const el = document.createElement("div");
   el.innerText = props?.text + " :" + count;
+  el.addEventListener("click", (e) => {
+    update(el, props);
+  });
   return el;
 };
 export const update: IUpdate = (el, props) => {
