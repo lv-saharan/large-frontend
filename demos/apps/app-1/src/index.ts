@@ -4,7 +4,7 @@ import {
   IRender,
 } from "definition";
 
-import { AppSharedInfo } from "../../appSharedInfo";
+import { AppSharedInfo } from "../../AppSharedInfo";
 
 export const render: IRender = (props, { registerCsses }) => {
   registerCsses(`

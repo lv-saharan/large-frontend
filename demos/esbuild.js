@@ -5,7 +5,7 @@ import fs from "fs";
 import path from "path";
 import { dev } from "local-dev-server";
 
-const [mode, from] = process.argv.splice(2);
+const [mode, from, start] = process.argv.splice(2);
 const startDir = from ?? "./demos";
 if (!fs.existsSync(startDir)) {
   throw new Error(`Directory ${startDir} does not exist.`);
@@ -182,7 +182,7 @@ if (mode == "dev") {
   const { reload } = dev(
     {
       ...pkg.localDev.server,
-      home: "/" + startDir.replace("\\", "/") + "/",
+      home: "/" + startDir.replace("\\", "/") + "/" + start + "/",
       response,
     },
     pkg.localDev.apis

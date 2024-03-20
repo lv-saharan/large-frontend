@@ -22,7 +22,7 @@
     "baseUrl": ".",
     "lib": ["ES2018", "DOM"],
     "paths": {
-      "definition": ["./definition/src/index.ts"]
+      "definition": ["definition/index.ts"]
     }
   }
 }

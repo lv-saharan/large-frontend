@@ -11,10 +11,12 @@ export * from "./interfaces/ICssManifest";
 export * from "./interfaces/IAssetManifest";
 
 export * from "./interfaces/IHost";
+export * from "./interfaces/IResource";
 export * from "./interfaces/IApp";
 export * from "./interfaces/IComponent";
 export * from "./interfaces/IAsset";
 export * from "./interfaces/ICss";
+export * from "./interfaces/IFunction";
 
 export * from "./interfaces/IMount";
 export * from "./interfaces/IUnMount";
@@ -30,6 +32,9 @@ export * from "./interfaces/IMessageOn";
 
 export * from "./interfaces/IRegisterCsses";
 export * from "./interfaces/IRegisterStyleSheets";
+
+export * from "./interfaces/IAppContainer";
+export * from "./interfaces/IComponentContainer";
 
 export * from "./types/CssEntryType";
 export * from "./types/AppType";

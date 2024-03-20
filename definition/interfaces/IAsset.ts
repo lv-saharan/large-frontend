@@ -3,5 +3,5 @@ import { IResource } from "./IResource";
 
 export interface IAsset extends IResource {
   manifest: IAssetManifest;
-  fetch: <T = Blob | string | JSON | ArrayBuffer | FormData>() => Promise<T>;
+  content: Blob | string | JSON | ArrayBuffer | object | Array<any>;
 }

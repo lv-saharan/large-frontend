@@ -5,7 +5,7 @@
   "author": "jun",
   "type": "module",
   "scripts": {
-    "demos": "node demos/esbuild.js dev"
+    "simple": "node demos/esbuild.js dev demos simple"
   },
   "dependencies": {
     "mitt": "^3.0.1",

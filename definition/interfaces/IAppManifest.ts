@@ -6,7 +6,7 @@ import { IManifest } from "./IManifest";
  */
 export interface IAppManifest extends IManifest {
   /**
-   * 应用的路径
+   * 子应用应用的路径
    */
   readonly path?: string;
   /**
