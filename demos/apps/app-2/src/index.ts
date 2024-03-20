@@ -5,7 +5,7 @@ import {
   ResourceType,
   Version,
 } from "definition";
-import { AppSharedInfo } from "../../AppSharedInfo";
+import { AppSharedInfo } from "../../app-shared-info";
 
 export const render: IRender = (
   props,

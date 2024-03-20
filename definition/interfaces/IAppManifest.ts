@@ -1,5 +1,15 @@
 import { AppType } from "../types/AppType";
 import { IManifest } from "./IManifest";
+import { IManifestExtendInfo } from "./IManifestExtendInfo";
+
+export interface IAppManifestExtendInfo extends IManifestExtendInfo {
+  /**
+   * 不同尺寸的图标
+   */
+  readonly icons?:
+    | Array<{ src: string; sizes: string; type: string }>
+    | undefined;
+}
 
 /**
  * 应用清单
@@ -24,14 +34,11 @@ export interface IAppManifest extends IManifest {
   readonly appType: AppType;
 
   /**
-   * 不同尺寸的图标
-   */
-  readonly icons?:
-    | Array<{ src: string; sizes: string; type: string }>
-    | undefined;
-
-  /**
    * 是否是单例模式
    */
   readonly singleton: boolean;
+
+  
+  readonly info?: IAppManifestExtendInfo;
+
 }

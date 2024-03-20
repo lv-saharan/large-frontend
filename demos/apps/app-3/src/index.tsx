@@ -7,7 +7,7 @@ import {
 } from "definition";
 import { h, tag, Component } from "wpa";
 
-import { AppSharedInfo } from "../../AppSharedInfo";
+import { AppSharedInfo } from "../../app-shared-info";
 
 export const render: IRender = (
   props,

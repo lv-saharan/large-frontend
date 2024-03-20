@@ -8,6 +8,9 @@ import {
 } from "../loaders/es-loader";
 
 const registerdApps: Array<IAppRegisterInfo & { readonly apps: IApp[] }> = [];
+const isEmptyOrNull = (str: string | null): boolean => {
+  return str == null || str.trim() === "";
+};
 
 export const host: IHost = {
   async registerApps(...apps) {
@@ -20,7 +23,10 @@ export const host: IHost = {
       ))
     );
 
-    console.log(registerdApps);
+    console.log("register....",registerdApps);
+  },
+  getApps(key) {
+    return registerdApps.find(info=>info.key==key).apps;
   },
   loadApps,
   loadAssets,

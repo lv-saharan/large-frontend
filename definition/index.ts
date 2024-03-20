@@ -41,3 +41,4 @@ export * from "./types/AppType";
 export * from "./types/ResourceType";
 
 export * from "./types/VersionType";
+export * from "./types/AssetType";

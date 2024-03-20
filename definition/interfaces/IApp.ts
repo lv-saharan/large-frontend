@@ -11,5 +11,4 @@ export interface IApp extends IResource {
   update?: IUpdate;
   mount?: IMount;
   unMount?: IUnMount;
-  [key: string]: any;
 }

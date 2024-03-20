@@ -49,7 +49,7 @@ export interface IHost {
    * @param key
    * @returns
    */
-  getApps?: (key: string) => IApp[];
+  getApps?: (key?: string) => IApp[];
 
   /**
    * 从一个地址加载应用

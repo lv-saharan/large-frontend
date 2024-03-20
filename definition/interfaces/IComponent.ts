@@ -13,5 +13,4 @@ export interface IComponent extends IResource {
   update?: IUpdate;
   mount?: IMount;
   unMount?: IUnMount;
-  [key: string]: any;
 }

@@ -26,5 +26,5 @@ export interface IManifest {
   /**
    * 扩展信息
    */
-  readonly info: IManifestExtendInfo;
+  readonly info?: IManifestExtendInfo;
 }
