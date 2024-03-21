@@ -1,16 +1,15 @@
 import { h, tag, render, Component, classNames } from "wpa";
+import { IApp } from "definition";
 
-import { BaseHost } from "implements/hosts/BaseHost";
 
 import css from "./index.scss";
 
 import { AppRegisterInfo } from "implements/common/type";
-
-import { AppContainerTag } from "implements/masters/wpa/src/app-container";
 import { isEmptyOrNullString } from "implements/common/util";
-import { IApp } from "definition";
+import { BaseHost } from "implements/hosts/BaseHost";
 import { load } from "implements/loaders/es-loader";
-
+import { AppContainerTag } from "implements/masters/wpa/src/app-container";
+ 
 const host = new BaseHost(load);
 const home = "app-1";
 @tag("simple-app")
