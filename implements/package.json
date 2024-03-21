@@ -1,0 +1,21 @@
+{
+  "name": "large-frontend-implements",
+  "version": "1.0.0",
+  "description": "implements the basic interface",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "lv-saharan/large-frontend"
+  },
+  "keywords": [
+    "large",
+    "frontend",
+    "micro",
+    "large-frontend"
+  ],
+  "author": "lv-saharan",
+  "license": "MIT"
+}

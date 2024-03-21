@@ -1,17 +1,4 @@
-import {
-  ILoad,
-  IResource,
-  IApp,
-  ILoadApps,
-  ILoadCsses,
-  ICss,
-  ILoadAssets,
-  IAsset,
-  ILoadComponents,
-  IComponent,
-  IFunction,
-  ILoadFunctions,
-} from "definition";
+import { IResource } from "definition";
 const cache: Map<string, Promise<any[]>> = new Map();
 
 export const load = async <T extends IResource>(src: string) => {
@@ -60,13 +47,3 @@ export const load = async <T extends IResource>(src: string) => {
 
   return await promise;
 };
-
-export const loadApps: ILoadApps = load<IApp>;
-
-export const loadCsses: ILoadCsses = load<ICss>;
-
-export const loadAssets: ILoadAssets = load<IAsset>;
-
-export const loadComponents: ILoadComponents = load<IComponent>;
-
-export const loadFunctions: ILoadFunctions = load<IFunction>;

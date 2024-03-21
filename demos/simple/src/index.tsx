@@ -1,46 +1,76 @@
 import { h, tag, render, Component, classNames } from "wpa";
 
-import { host } from "implements/hosts/es-host";
+import { BaseHost } from "implements/hosts/BaseHost";
+
 import css from "./index.scss";
-import { IAppRegisterInfo } from "definition";
-import { AppContainerTag } from "../../../implements/masters/wpa/src/app-container";
-const [appConfig] = await host.loadAssets("../assets/apps.js");
-console.log("config", appConfig);
 
-await host.registerApps(...(appConfig.content as any[]));
+import { AppRegisterInfo } from "implements/common/type";
 
+import { AppContainerTag } from "implements/masters/wpa/src/app-container";
+import { isEmptyOrNullString } from "implements/common/util";
+import { IApp } from "definition";
+import { load } from "implements/loaders/es-loader";
+
+const host = new BaseHost(load);
+const home = "app-1";
 @tag("simple-app")
 class SimpleApp extends Component {
   css = css;
-  config: any;
+  private config: any;
+  private loadedApps: IApp[] = [];
+  private currApp: IApp = null;
   async install() {
-    window.addEventListener("hashchange", (e) => {
+    window.addEventListener("hashchange", async (e) => {
+      const matched = await host.getAppByRoute(this.path);
+      if (
+        matched &&
+        this.loadedApps.every((app) => app.manifest !== matched.manifest)
+      ) {
+        this.loadedApps.push(matched);
+      }
+      this.currApp = matched ?? this.currApp;
       this.updateSelf();
     });
+
+    const [appConfig] = await host.loadAssets("../assets/apps.js");
+
+    console.log("config", appConfig);
+
+    await host.registerApps(appConfig.content as Array<AppRegisterInfo>);
+
+    /**
+     * 首次进入
+     */
+    this.currApp = await host.getAppByRoute(this.path);
+    if (this.currApp) {
+      this.loadedApps.push(this.currApp);
+    }
   }
-  get hash() {
-    return location.hash;
+  get path() {
+    return isEmptyOrNullString(location.hash)
+      ? home
+      : location.hash.substring(1);
   }
   render() {
     return (
       <>
         <aside>
-          {(appConfig.content as IAppRegisterInfo[]).map((info) => (
+          {host.getRegisteredApps<AppRegisterInfo>().map((info) => (
             <div>
-              <a href={`#${info.key}`} title={info.src}>
-                {info.key}
+              <a href={`#${info.path}`} title={info.name}>
+                {info.name}
               </a>
             </div>
           ))}
         </aside>
         <main>
-          {(appConfig.content as IAppRegisterInfo[]).map((info) => (
+          {this.loadedApps.map((app) => (
             <AppContainerTag
+              app={app}
               class={classNames("app-container", {
-                hidden: !this.hash.startsWith(`#${info.key}`),
+                hidden: this.currApp.manifest !== app.manifest,
               })}
-              apps={host.getApps(info.key)}
-            />
+            ></AppContainerTag>
           ))}
         </main>
       </>

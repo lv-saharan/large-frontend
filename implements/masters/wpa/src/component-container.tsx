@@ -9,6 +9,12 @@ export const ComponentContainerTag = "large-component-container";
 
 @tag(ComponentContainerTag)
 class ComponentContainer extends Component implements IComponentContainer {
-  registerCsses: IRegisterCsses<unknown>;
-  regsiterStyleSheets: IRegisterStyleSheets<unknown>;
+  registerCsses = (...csses) => {
+    this.cssss = csses;
+    return this.updateStyle();
+  };
+  regsiterStyleSheets = (...stylesheets) => {
+    this.stylesheets = stylesheets;
+    return this.updateStyle();
+  };
 }

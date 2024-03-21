@@ -17,6 +17,7 @@ export * from "./interfaces/IComponent";
 export * from "./interfaces/IAsset";
 export * from "./interfaces/ICss";
 export * from "./interfaces/IFunction";
+export * from "./interfaces/IAppRegisterInfo";
 
 export * from "./interfaces/IMount";
 export * from "./interfaces/IUnMount";

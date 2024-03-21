@@ -18,7 +18,7 @@ export const render: IRender = (
     }
   `);
   const iframe = document.createElement("iframe");
-  iframe.src = "/demos/main/src/apps.json";
+  iframe.src = "/demos/assets/apps.js";
   return iframe;
 };
 export const manifest: IAppManifest = {

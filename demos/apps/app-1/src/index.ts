@@ -31,8 +31,7 @@ export const render: IRender = (props, { registerCsses }) => {
     li.innerText = `setting-${key}:${props[key]}`;
     ul.appendChild(li);
   }
-  document.body.innerHTML = "<h1>111</h1>";
-  alert(123);
+ 
   return app;
 };
 
