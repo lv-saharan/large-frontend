@@ -9,9 +9,8 @@ import { IResource } from "./IResource";
 export interface IWindow extends Window {}
 
 export interface IDocument {}
-
-export interface ILoad<T extends IResource > {
-  (src: string): Promise<T[]>;
+export interface ILoad<T = unknown> {
+  <K>(src: string): Promise<Array<T extends IResource ? T : K>>;
 }
 export interface ILoadApps extends ILoad<IApp> {}
 

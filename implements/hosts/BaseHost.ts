@@ -6,10 +6,10 @@ import {
   ICss,
   IFunction,
   IHost,
+  ILoad,
   IResource,
 } from "definition";
 import { isEmptyOrNullString } from "implements/common/util";
-type LoadType = <T extends IResource>(src: string) => Promise<T[]>;
 export class BaseHost implements IHost {
   /**
    * 所有注册的App信息
@@ -20,8 +20,8 @@ export class BaseHost implements IHost {
    */
   private loadedApps: Array<IApp> = [];
 
-  private readonly load: LoadType;
-  constructor(load: LoadType) {
+  private readonly load: ILoad;
+  constructor(load: ILoad) {
     this.load = load;
   }
   registerApps(...apps: IAppRegisterInfo[] | IAppRegisterInfo[][]) {
