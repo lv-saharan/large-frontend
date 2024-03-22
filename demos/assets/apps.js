@@ -29,4 +29,9 @@ export const content = [
     name: "应用3.2",
     path: "/app-3/2",
   },
+  {
+    name: "应用5：Vue2",
+    path: "/app-5",
+    src: "/demos/apps/app-5/",
+  },
 ];
