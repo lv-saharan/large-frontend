@@ -5,3 +5,4 @@ export * as EsLoader from "./loader/EsLoader";
 export * as IframeLoader from "./loader/IframeLoader";
 
 export * from "./container/WpaContainer";
+export * from "./container/WpaAppContainer";

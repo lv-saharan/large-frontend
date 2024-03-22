@@ -105,7 +105,12 @@ export class BaseHost implements IHost {
         }
       );
 
-    return sortedApps.length > 0 ? sortedApps[0] : null;
+    if (sortedApps.length > 0) {
+      const app = sortedApps[0];
+      app.registerInfo = matched;
+      return app;
+    }
+    return null;
   }
   routeTo: <T>(path: string, params?: object) => Promise<T>;
 }

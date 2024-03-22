@@ -7,11 +7,11 @@ import {
   EsLoader,
 } from "implements";
 
-import { WpaContainerTag } from "implements";
+import { WpaAppContainerTag } from "implements";
 
 import css from "./index.scss";
 
-const ContainerTag = WpaContainerTag;
+const AppContainerTag = WpaAppContainerTag;
 
 const { load } = EsLoader;
 
@@ -47,7 +47,9 @@ class SimpleApp extends Component {
 
     (function registerApps(infos: AppRegisterInfo[]) {
       for (let info of infos) {
-        host.registerApps(info);
+        if (!isEmptyOrNullString(info.src)) {
+          host.registerApps(info);
+        }
         if (Array.isArray(info.children)) {
           registerApps(info.children);
         }
@@ -90,13 +92,13 @@ class SimpleApp extends Component {
         <aside>{this.buildNavs(this.menus)}</aside>
         <main>
           {this.loadedApps.map((app) => (
-            <ContainerTag
+            <AppContainerTag
               app={app}
               host={host}
               class={classNames("app-container", {
                 hidden: this.currApp.manifest !== app.manifest,
               })}
-            ></ContainerTag>
+            ></AppContainerTag>
           ))}
         </main>
       </>

@@ -1,5 +1,6 @@
 import {
   AppType,
+  IAppContainer,
   IAppManifest,
   IRender,
   ResourceType,
@@ -9,17 +10,21 @@ import { h, tag, Component } from "wpa";
 
 import { AppSharedInfo } from "../../app-shared-info";
 
-export const render: IRender = (
-  props,
-  { registerCsses, registerStyleSheets }
-) => {
-  registerCsses(`
+export const render: IRender = (props, container: IAppContainer) => {
+  container.registerCsses(`
     :host{
       color:blue;
     }
     `);
-  registerStyleSheets(new URL("./css/app3.css", import.meta.url).href);
-  return <div>App3.2定义</div>;
+  container.registerStyleSheets(
+    new URL("./css/app3.css", import.meta.url).href
+  );
+  return (
+    <div>
+      App3.2定义
+      <a href={`#${container.app.registerInfo.path}`}>App3.1</a>
+    </div>
+  );
 };
 export const manifest: IAppManifest = {
   get path() {

@@ -25,4 +25,8 @@ export const content = [
     path: "/app-3",
     src: "/demos/apps/app-3/",
   },
+  {
+    name: "应用3.2",
+    path: "/app-3/2",
+  },
 ];

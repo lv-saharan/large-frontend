@@ -1,6 +1,7 @@
 import { IHost } from "./IHost";
 import { IRegisterCsses } from "./IRegisterCsses";
 import { IRegisterStyleSheets } from "./IRegisterStyleSheets";
+import { IResource } from "./IResource";
 
 export interface IContainer {
   /**
@@ -15,6 +16,7 @@ export interface IContainer {
    * 宿主
    */
   readonly host: IHost;
+
 
   appendChild(child: HTMLElement): void;
 }
