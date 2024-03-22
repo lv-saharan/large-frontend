@@ -1,4 +1,4 @@
-import { IManifestExtendInfo, ResourceType, Version } from "definition";
+import { IManifestExtendInfo, ResourceType, Version } from "definitions";
 
 export const AppSharedInfo = {
   get definitionVersion() {

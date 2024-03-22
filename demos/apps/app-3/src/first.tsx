@@ -5,29 +5,37 @@ import {
   ResourceType,
   Version,
 } from "definitions";
+import { h, tag, Component } from "wpa";
+
 import { AppSharedInfo } from "../../app-shared-info";
 
-export const render: IRender = (props, { registerCsses }) => {
+export const render: IRender = (
+  props,
+  { registerCsses, registerStyleSheets }
+) => {
   registerCsses(`
-    iframe{
-      border:0;
-      height:36rem;
+    :host{
+      color:red;
     }
-  `);
-  const iframe = document.createElement("iframe");
-  iframe.src = "/demos/assets/apps.js";
-  return iframe;
+    `);
+  registerStyleSheets(new URL("./css/app3.css", import.meta.url).href);
+  return (
+    <div>
+      第三个App-1 定义
+       
+    </div>
+  );
 };
 export const manifest: IAppManifest = {
   get name() {
-    return "SECOND-APP";
+    return "第三个App定义";
   },
   get shortName() {
-    return "APP-2";
+    return "APP-3";
   },
 
   get appType() {
-    return AppType.IFRAME;
+    return AppType.PART;
   },
 
   get singleton() {
@@ -36,6 +44,5 @@ export const manifest: IAppManifest = {
   get version() {
     return "1.0.0";
   },
-
   ...AppSharedInfo,
 };

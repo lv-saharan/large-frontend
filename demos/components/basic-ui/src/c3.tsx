@@ -1,7 +1,7 @@
 import { h, tag, Component } from "wpa";
 
 import { createManifest } from "./util";
-import { IRender, IUpdate } from "definition";
+import { IRender, IUpdate } from "definitions";
 
 export const manifest = createManifest("c3");
 

@@ -2,7 +2,7 @@ import {
   AppType,
   IAppManifest,
   IRender,
-} from "definition";
+} from "definitions";
 
 import { AppSharedInfo } from "../../app-shared-info";
 

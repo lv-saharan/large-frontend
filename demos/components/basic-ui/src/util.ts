@@ -1,4 +1,4 @@
-import { IComponentManifest, ResourceType, Version } from "definition";
+import { IComponentManifest, ResourceType, Version } from "definitions";
 
 const TagPrefix = "com.hh.ui.basic";
 

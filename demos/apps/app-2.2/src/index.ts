@@ -9,25 +9,26 @@ import { AppSharedInfo } from "../../app-shared-info";
 
 export const render: IRender = (props, { registerCsses }) => {
   registerCsses(`
-    iframe{
+    h1{
       border:0;
+      color:blue;
       height:36rem;
     }
   `);
-  const iframe = document.createElement("iframe");
-  iframe.src = "/demos/assets/apps.js";
-  return iframe;
+  const h1 = document.createElement("h1");
+  h1.innerHTML="hello,2.2"
+  return h1;
 };
 export const manifest: IAppManifest = {
   get name() {
-    return "SECOND-APP";
+    return "SECOND.2-APP";
   },
   get shortName() {
-    return "APP-2";
+    return "APP-2.2";
   },
 
   get appType() {
-    return AppType.IFRAME;
+    return AppType.NATIVE;
   },
 
   get singleton() {

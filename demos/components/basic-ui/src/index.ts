@@ -1,4 +1,4 @@
-import { IComponentManifest, Version, ResourceType, IRender } from "definition";
+import { IComponentManifest, Version, ResourceType, IRender } from "definitions";
 
 import * as c1 from "./c1";
 import * as c2 from "./c2";

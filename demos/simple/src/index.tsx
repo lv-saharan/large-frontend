@@ -1,21 +1,28 @@
 import { h, tag, render, Component, classNames } from "wpa";
-import { IApp } from "definition";
+import { IApp } from "definitions";
+import {
+  AppRegisterInfo,
+  isEmptyOrNullString,
+  BaseHost,
+  EsLoader,
+} from "implements";
 
+import { WpaContainerTag } from "implements";
 
 import css from "./index.scss";
 
-import { AppRegisterInfo } from "implements/common/type";
-import { isEmptyOrNullString } from "implements/common/util";
-import { BaseHost } from "implements/hosts/BaseHost";
-import { load } from "implements/loaders/es-loader";
-import { AppContainerTag } from "implements/masters/wpa/src/app-container";
- 
+const ContainerTag = WpaContainerTag;
+
+const { load } = EsLoader;
+
 const host = new BaseHost(load);
-const home = "app-1";
+
+const home = "/app-1";
+
 @tag("simple-app")
 class SimpleApp extends Component {
   css = css;
-  private config: any;
+  private menus: AppRegisterInfo[];
   private loadedApps: IApp[] = [];
   private currApp: IApp = null;
   async install() {
@@ -28,14 +35,28 @@ class SimpleApp extends Component {
         this.loadedApps.push(matched);
       }
       this.currApp = matched ?? this.currApp;
+      console.log("find route", matched);
       this.updateSelf();
     });
 
+    //默认实现中的App 可以有子App
+    //需要把子App也加载进来
     const [appConfig] = await host.loadAssets("../assets/apps.js");
+
+    this.menus = appConfig.content as Array<AppRegisterInfo>;
+
+    (function registerApps(infos: AppRegisterInfo[]) {
+      for (let info of infos) {
+        host.registerApps(info);
+        if (Array.isArray(info.children)) {
+          registerApps(info.children);
+        }
+      }
+    })(this.menus);
 
     console.log("config", appConfig);
 
-    await host.registerApps(appConfig.content as Array<AppRegisterInfo>);
+    // await host.registerApps(infos);
 
     /**
      * 首次进入
@@ -50,26 +71,32 @@ class SimpleApp extends Component {
       ? home
       : location.hash.substring(1);
   }
+  private buildNavs(infos: AppRegisterInfo[]) {
+    return (
+      <ul>
+        {infos.map((info) => (
+          <li>
+            <a href={`#${info.path}`}>{info.name}</a>
+            {info.children &&
+              this.buildNavs(info.children as AppRegisterInfo[])}
+          </li>
+        ))}
+      </ul>
+    );
+  }
   render() {
     return (
       <>
-        <aside>
-          {host.getRegisteredApps<AppRegisterInfo>().map((info) => (
-            <div>
-              <a href={`#${info.path}`} title={info.name}>
-                {info.name}
-              </a>
-            </div>
-          ))}
-        </aside>
+        <aside>{this.buildNavs(this.menus)}</aside>
         <main>
           {this.loadedApps.map((app) => (
-            <AppContainerTag
+            <ContainerTag
               app={app}
+              host={host}
               class={classNames("app-container", {
                 hidden: this.currApp.manifest !== app.manifest,
               })}
-            ></AppContainerTag>
+            ></ContainerTag>
           ))}
         </main>
       </>
