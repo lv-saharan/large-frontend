@@ -6,13 +6,11 @@ export const WpaContainerTag = "large-wpa-container";
 
 @tag(WpaContainerTag)
 export class WpaContainer extends Component implements IContainer {
-  appendChild(child: HTMLElement): void {
-    this.shadowRoot.appendChild(child);
-  }
+  props = { host: null as IHost };
   get host(): IHost {
     return this.props.host;
   }
- 
+
   registerCsses = (...csses) => {
     this.cssss = csses;
     this.updateStyle();
@@ -22,7 +20,5 @@ export class WpaContainer extends Component implements IContainer {
     this.updateStyle();
   };
 
-  
-  
-  
+  render(props) {}
 }

@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "mitt": "^3.0.1",
-    "wpa": "^1.0.12",
+    "wpa": "^1.0.13",
     "wpa-ui": "^1.0.10"
   },
   "devDependencies": {

@@ -16,7 +16,4 @@ export interface IContainer {
    * 宿主
    */
   readonly host: IHost;
-
-
-  appendChild(child: HTMLElement): void;
 }

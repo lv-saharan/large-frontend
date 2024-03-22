@@ -14,6 +14,11 @@ export const WpaAppContainerTag = "large-wpa-app-container";
 
 @tag(WpaAppContainerTag)
 class WpaAppContainer extends WpaContainer implements IAppContainer {
+  props = {
+    app: null as IApp,
+    props: null as any,
+    host: null as IHost,
+  };
   get app(): IApp {
     return this.props.app;
   }
@@ -28,7 +33,7 @@ class WpaAppContainer extends WpaContainer implements IAppContainer {
     ) {
       const el = app.render(this.appProps, this);
       if (el instanceof HTMLElement) {
-        this.appendChild(el);
+        this.shadowRoot.appendChild(el);
       }
     }
   }
