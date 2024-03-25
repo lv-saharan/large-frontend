@@ -1,6 +1,14 @@
 import { IApp } from "../app/IApp";
 import { IAppRegisterInfo } from "../app/IAppRegisterInfo";
-import { ILoadApps, ILoadAssets, ILoadComponents, ILoadCsses, ILoadFunctions } from "./ILoad";
+import {
+  ILoadApps,
+  ILoadAssets,
+  ILoadComponents,
+  ILoadCsses,
+  ILoadFunctions,
+  ILoad,
+  ILoadConfigs,
+} from "./ILoad";
 import { IRegisterApps } from "./IRegisterApps";
 
 export interface IWindow {}
@@ -65,4 +73,13 @@ export interface IHost {
    * 很多时候都是静态加载
    */
   loadFunctions: ILoadFunctions;
+
+  /**
+   * 加载配置文件
+   */
+  loadConfigs: ILoadConfigs;
+  /**
+   * 加载IResource资源
+   */
+  load: ILoad;
 }

@@ -1,7 +1,7 @@
-export type AssetType =
-  | string
-  | Blob
-  | ArrayBuffer
-  | object
-  | number
-  | Array<AssetType>;
+export enum AssetType {
+  IMAGE = "IMAGE",
+  VIDEO = "VIODE",
+  AUDIO = "AUDIO",
+  STYLESHEET = "STYLESHEET",
+  ATTACHMENT = "ATTACHMENT",
+}

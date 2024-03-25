@@ -3,6 +3,7 @@ import {
   IAppRegisterInfo,
   IAsset,
   IComponent,
+  IConfig,
   ICss,
   IFunction,
   IHost,
@@ -10,11 +11,12 @@ import {
   ILoadApps,
   ILoadAssets,
   ILoadComponents,
+  ILoadConfigs,
   ILoadCsses,
   ILoadFunctions,
   IResource,
 } from "definitions";
-import { isEmptyOrNullString, trim, trimEnd } from "./Util";
+import { isEmptyOrNullString, trim, trimEnd } from "../common/Util";
 
 export class BaseHost implements IHost {
   /**
@@ -26,8 +28,6 @@ export class BaseHost implements IHost {
    */
   private loadedApps: Array<IApp> = [];
 
-  private readonly load: ILoad;
-
   constructor(load: ILoad) {
     this.load = load;
     this.loadApps = load<IApp>;
@@ -35,7 +35,10 @@ export class BaseHost implements IHost {
     this.loadComponents = load<IComponent>;
     this.loadCsses = load<ICss>;
     this.loadFunctions = load<IFunction>;
+    this.loadConfigs = load<IConfig>;
   }
+  load: ILoad;
+  loadConfigs: ILoadConfigs;
   loadCsses: ILoadCsses;
   loadAssets: ILoadAssets;
   loadComponents: ILoadComponents;

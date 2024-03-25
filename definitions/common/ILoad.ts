@@ -1,5 +1,6 @@
 import { IApp, ICss, IAsset, IComponent, IFunction } from "definitions";
 import { IResource } from "./IResource";
+import { IConfig } from "definitions/config";
 
 export interface ILoad<T = unknown> {
   <K>(src: string): Promise<Array<T extends IResource ? T : K>>;
@@ -13,3 +14,5 @@ export interface ILoadAssets extends ILoad<IAsset> {}
 export interface ILoadComponents extends ILoad<IComponent> {}
 
 export interface ILoadFunctions extends ILoad<IFunction> {}
+
+export interface ILoadConfigs extends ILoad<IConfig> {}

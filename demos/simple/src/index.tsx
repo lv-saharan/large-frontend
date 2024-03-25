@@ -41,9 +41,11 @@ class SimpleApp extends Component {
 
     //默认实现中的App 可以有子App
     //需要把子App也加载进来
-    const [appConfig] = await host.loadAssets("../assets/apps.js");
+    const [appConfig] = await host.loadConfigs(
+      "../shared/configs/app-config.js"
+    );
 
-    this.menus = appConfig.content as Array<AppRegisterInfo>;
+    this.menus = appConfig.config as Array<AppRegisterInfo>;
 
     (function registerApps(infos: AppRegisterInfo[]) {
       for (let info of infos) {

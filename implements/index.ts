@@ -6,3 +6,6 @@ export * as IframeLoader from "./loader/IframeLoader";
 
 export * from "./container/WpaContainer";
 export * from "./container/WpaAppContainer";
+
+
+export * from "./host"

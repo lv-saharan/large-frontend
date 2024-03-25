@@ -3,7 +3,6 @@ import {
   IApp,
   IAppContainer,
   IAppRegisterInfo,
-  IContainer,
   IHost,
 } from "definitions";
 import { isEmptyOrNullString } from "implements/common/Util";
@@ -14,11 +13,24 @@ export const WpaAppContainerTag = "large-wpa-app-container";
 
 @tag(WpaAppContainerTag)
 class WpaAppContainer extends WpaContainer implements IAppContainer {
+  static css = `
+  :host{
+    display: block;
+    
+  }
+  `;
   props = {
     app: null as IApp,
     props: null as any,
     host: null as IHost,
   };
+  get registerInfo(): IAppRegisterInfo {
+    return this.app.registerInfo;
+  }
+  get element(): HTMLElement {
+    return this.shadowRoot.querySelector("*");
+  }
+
   get app(): IApp {
     return this.props.app;
   }

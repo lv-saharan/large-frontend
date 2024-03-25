@@ -7,3 +7,4 @@ export * from "./function";
 export * from "./lifecycle";
 export * from "./message";
 export * from "./type";
+export * from "./config";

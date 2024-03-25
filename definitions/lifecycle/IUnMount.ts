@@ -1,14 +1,13 @@
+import { IContainer } from "definitions/common";
 import { IDocument, IWindow } from "../common/IHost";
 import { IMessageOff } from "../message/IMessageOff";
+import { IMessageEmit } from "definitions/message";
 
 export interface IUnMountExtendArgs {
   off: IMessageOff;
-  element: HTMLElement;
-  container: HTMLElement;
-  window?: IWindow;
-  document?: IDocument;
+  emit: IMessageEmit;
 }
 
 export interface IUnMount {
-  (args: IUnMountExtendArgs): Promise<void> | void;
+  (container: IContainer, args: IUnMountExtendArgs): Promise<void> | void;
 }

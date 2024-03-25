@@ -1,4 +1,3 @@
-import "https://unpkg.com/vue@2";
 import "./demo-5.js";
 
 export const manifest = {

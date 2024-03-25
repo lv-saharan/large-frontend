@@ -1,14 +1,11 @@
 import { IMessageOn } from "../message/IMessageOn";
 import { IMessageEmit } from "../message/IMessageEmit";
 import { IDocument, IWindow } from "../common/IHost";
+import { IContainer } from "definitions/common";
 export interface IMountExtendArgs {
-  on?: IMessageOn;
-  emit?: IMessageEmit;
-  element: HTMLElement;
-  container: HTMLElement;
-  window?: IWindow;
-  document?: IDocument;
+  on: IMessageOn;
+  emit: IMessageEmit;
 }
 export interface IMount {
-  (args: IMountExtendArgs): Promise<void> | void;
+  (container: IContainer, args: IMountExtendArgs): Promise<void> | void;
 }

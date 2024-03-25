@@ -22,7 +22,7 @@ export const render: IRender = (props, container: IAppContainer) => {
   return (
     <div>
       第三个App3 定义
-      <a href={`#${container.app.registerInfo.path}/2`}>App3.2</a>
+      <a href={`#${container.registerInfo.path}/2`}>App3.2</a>
     </div>
   );
 };

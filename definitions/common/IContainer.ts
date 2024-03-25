@@ -1,7 +1,6 @@
 import { IHost } from "./IHost";
 import { IRegisterCsses } from "./IRegisterCsses";
 import { IRegisterStyleSheets } from "./IRegisterStyleSheets";
-import { IResource } from "./IResource";
 
 export interface IContainer {
   /**
@@ -16,4 +15,9 @@ export interface IContainer {
    * 宿主
    */
   readonly host: IHost;
+
+  /**
+   * 容器内绑定的元素
+   */
+  readonly element?: HTMLElement;
 }

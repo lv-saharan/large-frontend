@@ -4,4 +4,5 @@ import { IAppRegisterInfo } from "./IAppRegisterInfo";
 
 export interface IAppContainer extends IContainer {
   app: IApp;
+  registerInfo: IAppRegisterInfo;
 }

@@ -11,11 +11,12 @@ export const render: IRender = (props, { registerCsses }) => {
   registerCsses(`
     iframe{
       border:0;
-      height:36rem;
+      height:100%;
+      width:100%;
     }
   `);
   const iframe = document.createElement("iframe");
-  iframe.src = "/demos/assets/apps.js";
+  iframe.src = "/demos/shared/configs/app-config.js";
   return iframe;
 };
 export const manifest: IAppManifest = {
