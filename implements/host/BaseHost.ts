@@ -1,6 +1,6 @@
 import {
   IApp,
-  IAppRegisterInfo,
+  IAppRouteInfo,
   IAsset,
   IComponent,
   IConfig,
@@ -14,20 +14,39 @@ import {
   ILoadConfigs,
   ILoadCsses,
   ILoadFunctions,
+  IOnAfterRoute,
+  IOnBeforeRoute,
+  IOnRoute,
+  IOnRouteCallback,
   IResource,
 } from "definitions";
 import { isEmptyOrNullString, trim, trimEnd } from "../common/Util";
+import { AppRegisterInfo } from "implements/common";
 
 export class BaseHost implements IHost {
   /**
    * 所有注册的App信息
    */
-  private registerdApps: Array<IAppRegisterInfo> = [];
+  private registerdApps: Array<IAppRouteInfo> = [];
   /**
    * 已经加载的应用
    */
   private loadedApps: Array<IApp> = [];
 
+
+  private currApp: IApp;
+
+  private onRouteCallbacks: IOnRouteCallback[] = [];
+
+  private onBeforeRouteCallbacks: IOnRouteCallback[] = [];
+  
+  private onAfterRouteCallbacks: IOnRouteCallback[] = [];
+
+  get currPath() {
+    return isEmptyOrNullString(location.hash)
+      ? "/app-1"
+      : location.hash.substring(1);
+  }
   constructor(load: ILoad) {
     this.load = load;
     this.loadApps = load<IApp>;
@@ -36,7 +55,45 @@ export class BaseHost implements IHost {
     this.loadCsses = load<ICss>;
     this.loadFunctions = load<IFunction>;
     this.loadConfigs = load<IConfig>;
+
+    window.addEventListener("hashchange", async (e) => {
+      const matched = await this.getAppByRoute(this.currPath);
+      let cancel = false;
+      if (matched) {
+        for (let cb of this.beforeRouteCallbacks) {
+          if (cb(this.currPath, matched.manifest) === false) {
+            console.log("beforeRoute canceled");
+            return;
+          }
+        }
+        if (this.loadedApps.every((app) => app.manifest !== matched.manifest)) {
+          this.loadedApps.push(matched);
+        }
+        for (let cb of this.routeCallbacks) {
+          cb(this.currPath, matched.manifest);
+        }
+
+        for (let cb of this.afterRouteCallbacks) {
+          cb(this.currPath, matched.manifest);
+        }
+      } else {
+        console.log("not found matched app");
+      }
+
+      this.currApp = matched ?? this.currApp;
+      console.log("find route", matched);
+    });
   }
+  onRoute: IOnRoute = (...callbacks) => {
+    this.onRouteCallbacks.push(...callbacks);
+  };
+  onBeforeRoute: IOnBeforeRoute = (...callbacks) => {
+    this.onBeforeRouteCallbacks.push(...callbacks);
+  };
+  onAfterRoute: IOnAfterRoute = (...callbacks) => {
+    this.onAfterRouteCallbacks.push(...callbacks);
+  };
+
   load: ILoad;
   loadConfigs: ILoadConfigs;
   loadCsses: ILoadCsses;
@@ -45,14 +102,16 @@ export class BaseHost implements IHost {
   loadFunctions: ILoadFunctions;
   loadApps: ILoadApps;
 
-  registerApps(...apps: IAppRegisterInfo[]) {
-    this.registerdApps.push(...apps.flat());
+  registerApps(...apps: AppRegisterInfo[]) {
+    for (let info of apps) {
+      if (!isEmptyOrNullString(info.src)) {
+        this.registerdApps.push(info);
+      }
+      if (Array.isArray(info.children)) {
+        this.registerApps(...info.children);
+      }
+    }
   }
-
-  getRegisteredApps<T extends IAppRegisterInfo>() {
-    return this.registerdApps as T[];
-  }
-  getAppsByPath: (...path: string[]) => Promise<IApp[]>;
 
   async getAppByRoute(route: string): Promise<IApp> {
     if (isEmptyOrNullString(route)) return Promise.resolve(null);
@@ -110,7 +169,7 @@ export class BaseHost implements IHost {
 
     if (sortedApps.length > 0) {
       const app = sortedApps[0];
-      app.registerInfo = matched;
+      app.routeInfo = matched;
       return app;
     }
     return null;

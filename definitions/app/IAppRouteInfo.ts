@@ -1,4 +1,8 @@
-export interface IAppRegisterInfo {
+/**
+ * 注册应用信息
+ * 
+ */
+export interface IAppRouteInfo {
   /**
    * 应用的默认路径
    */

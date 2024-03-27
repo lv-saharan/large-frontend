@@ -1,4 +1,4 @@
-import Vue from "../../shared/libs/vue/2.7.16/vue.esm.browser.min.js";
+import Vue from "vue@2.7.16";
 
 /******/ (function() { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({

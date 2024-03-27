@@ -10,7 +10,7 @@ import { h, tag, Component } from "wpa";
 
 import { AppSharedInfo } from "../../app-shared-info";
 
-export const render: IRender = (props, container: IAppContainer) => {
+export const render: IRender = (container: IAppContainer) => {
   container.registerCsses(`
     :host{
       color:blue;
@@ -22,7 +22,7 @@ export const render: IRender = (props, container: IAppContainer) => {
   return (
     <div>
       App3.2定义
-      <a href={`#${container.registerInfo.path}`}>App3.1</a>
+      <a href={`#${container.routeInfo.path}`}>App3.1</a>
     </div>
   );
 };

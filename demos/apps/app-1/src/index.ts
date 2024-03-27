@@ -1,13 +1,10 @@
-import {
-  AppType,
-  IAppManifest,
-  IRender,
-} from "definitions";
+import { AppType, IAppContainer, IAppManifest, IRender } from "definitions";
 
 import { AppSharedInfo } from "../../app-shared-info";
 
-export const render: IRender = (props, { registerCsses }) => {
-  registerCsses(`
+export const render: IRender = ({ registerCsses }, props) => {
+  registerCsses &&
+    registerCsses(`
   :host{
     display:block;
     line-height:1.5;
@@ -22,7 +19,7 @@ export const render: IRender = (props, { registerCsses }) => {
 
   for (let key in manifest) {
     const li = document.createElement("li");
-    li.innerText = `${key}:${manifest[key]}`;
+    li.innerText = `${key}:${(manifest as any)[key] as string}`;
     ul.appendChild(li);
   }
 
@@ -31,7 +28,7 @@ export const render: IRender = (props, { registerCsses }) => {
     li.innerText = `setting-${key}:${props[key]}`;
     ul.appendChild(li);
   }
- 
+
   return app;
 };
 

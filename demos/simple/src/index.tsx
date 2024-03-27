@@ -46,17 +46,7 @@ class SimpleApp extends Component {
     );
 
     this.menus = appConfig.config as Array<AppRegisterInfo>;
-
-    (function registerApps(infos: AppRegisterInfo[]) {
-      for (let info of infos) {
-        if (!isEmptyOrNullString(info.src)) {
-          host.registerApps(info);
-        }
-        if (Array.isArray(info.children)) {
-          registerApps(info.children);
-        }
-      }
-    })(this.menus);
+    host.registerApps(...this.menus);
 
     console.log("config", appConfig);
 

@@ -1,7 +1,9 @@
 import { ICssManifest } from "./ICssManifest";
 import { IResource } from "../common/IResource";
 
-export interface ICss extends IResource {
-  manifest: ICssManifest;
+/**
+ * CSS Resource
+ */
+export interface ICss extends IResource<ICssManifest> {
   css: CSSStyleSheet;
 }

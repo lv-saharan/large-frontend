@@ -1,9 +1,11 @@
 import { IManifestExtendInfo } from "../common";
 
-
+/**
+ * 组件清单扩展信息
+ */
 export interface IComponentManifestExtendInfo extends IManifestExtendInfo {
   /**
-   * 组件所属组
+   * 组件分类
    */
-  readonly group: string;
+  readonly classification?: string;
 }

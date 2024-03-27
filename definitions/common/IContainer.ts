@@ -2,6 +2,9 @@ import { IHost } from "./IHost";
 import { IRegisterCsses } from "./IRegisterCsses";
 import { IRegisterStyleSheets } from "./IRegisterStyleSheets";
 
+/**
+ * 容器接口
+ */
 export interface IContainer {
   /**
    * 注册css

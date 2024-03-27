@@ -2,6 +2,7 @@ import {
   AppType,
   IAppContainer,
   IAppManifest,
+  IContainer,
   IRender,
   ResourceType,
   Version,
@@ -10,7 +11,7 @@ import { h, tag, Component } from "wpa";
 
 import { AppSharedInfo } from "../../app-shared-info";
 
-export const render: IRender = (props, container: IAppContainer) => {
+export const render: IRender = (container: IAppContainer) => {
   container.registerCsses(`
     :host{
       color:red;
@@ -22,7 +23,7 @@ export const render: IRender = (props, container: IAppContainer) => {
   return (
     <div>
       第三个App3 定义
-      <a href={`#${container.registerInfo.path}/2`}>App3.2</a>
+      <a href={`#${container.routeInfo.path}/2`}>App3.2</a>
     </div>
   );
 };

@@ -2,7 +2,7 @@ import {
   AppType,
   IApp,
   IAppContainer,
-  IAppRegisterInfo,
+  IAppRouteInfo,
   IHost,
 } from "definitions";
 import { isEmptyOrNullString } from "implements/common/Util";
@@ -16,7 +16,7 @@ class WpaAppContainer extends WpaContainer implements IAppContainer {
   static css = `
   :host{
     display: block;
-    
+
   }
   `;
   props = {
@@ -24,8 +24,8 @@ class WpaAppContainer extends WpaContainer implements IAppContainer {
     props: null as any,
     host: null as IHost,
   };
-  get registerInfo(): IAppRegisterInfo {
-    return this.app.registerInfo;
+  get routeInfo(): IAppRouteInfo {
+    return this.app.routeInfo;
   }
   get element(): HTMLElement {
     return this.shadowRoot.querySelector("*");
@@ -43,7 +43,7 @@ class WpaAppContainer extends WpaContainer implements IAppContainer {
       typeof app.render === "function" &&
       app.manifest.appType !== AppType.PART
     ) {
-      const el = app.render(this.appProps, this);
+      const el = app.render(this, this.appProps);
       if (el instanceof HTMLElement) {
         this.shadowRoot.appendChild(el);
       }
@@ -58,7 +58,7 @@ class WpaAppContainer extends WpaContainer implements IAppContainer {
       return h(app.manifest.tag, this.appProps);
     }
     if (app.manifest.appType == AppType.PART) {
-      return app.render(this.appProps, this);
+      return app.render(this, this.appProps);
     }
     return null;
   }

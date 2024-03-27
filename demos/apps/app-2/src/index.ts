@@ -1,14 +1,16 @@
 import {
   AppType,
+  IAppContainer,
   IAppManifest,
+  IContainer,
   IRender,
   ResourceType,
   Version,
 } from "definitions";
 import { AppSharedInfo } from "../../app-shared-info";
 
-export const render: IRender = (props, { registerCsses }) => {
-  registerCsses(`
+export const render: IRender = (container: IContainer) => {
+  container.registerCsses(`
     iframe{
       border:0;
       height:100%;

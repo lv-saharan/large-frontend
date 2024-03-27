@@ -1,5 +1,8 @@
 import { IManifest } from "./IManifest";
 
-export interface IResource {
-  manifest: IManifest;
+/**
+ * Resource interface.
+ */
+export interface IResource<T extends IManifest = IManifest> {
+  readonly manifest: T;
 }

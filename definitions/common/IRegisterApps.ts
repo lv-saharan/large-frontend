@@ -1,5 +1,8 @@
-import { IAppRegisterInfo } from "../app/IAppRegisterInfo";
+import { IAppRouteInfo } from "../app/IAppRouteInfo";
 
-export interface IRegisterApps<T extends IAppRegisterInfo = IAppRegisterInfo> {
+/**
+ * 注册应用接口
+ */
+export interface IRegisterApps<T extends IAppRouteInfo = IAppRouteInfo> {
   (...apps: Array<T>): void;
 }

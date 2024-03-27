@@ -7,7 +7,7 @@ import {
 } from "definitions";
 import { AppSharedInfo } from "../../app-shared-info";
 
-export const render: IRender = (props, { registerCsses }) => {
+export const render: IRender = ({ registerCsses }) => {
   registerCsses(`
     h1{
       border:0;

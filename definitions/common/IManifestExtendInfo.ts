@@ -1,6 +1,9 @@
 import { ResourceType } from "../type/ResourceType";
 import { VersionType } from "../type/VersionType";
 
+/**
+ * 资源清单扩展接口
+ */
 export interface IManifestExtendInfo {
   /**
    * 作者

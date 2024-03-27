@@ -1,8 +1,8 @@
 import { IContainer } from "../common/IContainer";
 import { IApp } from "./IApp";
-import { IAppRegisterInfo } from "./IAppRegisterInfo";
+import { IAppRouteInfo } from "./IAppRouteInfo";
 
 export interface IAppContainer extends IContainer {
   app: IApp;
-  registerInfo: IAppRegisterInfo;
+  routeInfo: IAppRouteInfo;
 }

@@ -2,6 +2,10 @@ import { ResourceType } from "../type/ResourceType";
 import { VersionType } from "../type/VersionType";
 import { IManifestExtendInfo } from "./IManifestExtendInfo";
 
+/**
+ * 资源清单接口
+ * 叫meta好还是？Manifest
+ */
 export interface IManifest {
   /**
    * 名称,资源唯一性标识

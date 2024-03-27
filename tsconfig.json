@@ -4,23 +4,26 @@
   "exclude": ["node_modules"],
   "compilerOptions": {
     "module": "ESNext",
-    "target": "ESNext",
+    "target": "ES6",
     "allowJs": true,
     "jsx": "react",
     "jsxFactory": "h",
     "jsxFragmentFactory": "h.f",
-    "isolatedModules": true,
+    "isolatedModules": true, //https://esbuild.github.io/content-types/#isolated-modules
+    "esModuleInterop": true, //https://esbuild.github.io/content-types/#es-module-interop
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
-    "declaration": true,
+    "declaration": true, //生成d.ts esbuild 不支持
     "emitDeclarationOnly": true,
     "allowImportingTsExtensions": true,
     "experimentalDecorators": true /* 启用装饰器 */,
-    "emitDecoratorMetadata": true /* 启用装饰器元数据 */,
+    "emitDecoratorMetadata": true /* 启用装饰器元数据 es不支持*/,
+    // "strict": true, //继承接口的对象做完参数会不识别
     "outDir": "dist",
     "baseUrl": ".",
     "lib": ["ES2018", "DOM"],
+    "alwaysStrict": true,
     "paths": {
       "definition": ["definitions/index.ts"],
       "implements": ["implements/index.ts"]

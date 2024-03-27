@@ -12,6 +12,7 @@ export interface IAppManifest extends IManifest {
   readonly path?: string;
   /**
    * 应用的标签
+   * 标签化的自定义组件，可以不用render等方法
    */
   readonly tag?: string;
 
@@ -24,7 +25,9 @@ export interface IAppManifest extends IManifest {
    * 是否是单例模式
    */
   readonly singleton: boolean;
-  
 
+  /**
+   * 扩展信息
+   */
   readonly info?: IAppManifestExtendInfo;
 }

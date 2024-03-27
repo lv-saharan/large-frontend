@@ -1,5 +1,5 @@
 import { IApp } from "../app/IApp";
-import { IAppRegisterInfo } from "../app/IAppRegisterInfo";
+import { IAppRouteInfo } from "../app/IAppRouteInfo";
 import {
   ILoadApps,
   ILoadAssets,
@@ -10,28 +10,21 @@ import {
   ILoadConfigs,
 } from "./ILoad";
 import { IRegisterApps } from "./IRegisterApps";
+import { IOnAfterRoute, IOnBeforeRoute, IOnRoute } from "../lifecycle/IRoute";
 
 export interface IWindow {}
 
 export interface IDocument {}
 
+/**
+ * 宿主，提供宿主相关的服务
+ * 多个宿主可以同时存在
+ */
 export interface IHost {
   /**
-   * 所有App注册信息，树状结构
-   */
-  getRegisteredApps: <T extends IAppRegisterInfo>() => T[];
-
-  /**
-   * 注册应用，应用是可以有多级树状的
+   * 注册应用
    */
   registerApps: IRegisterApps;
-
-  /**
-   * 获取路径对应的应用列表
-   * @param path
-   * @returns
-   */
-  getAppsByPath: (...path: string[]) => Promise<IApp[]>;
 
   /**
    * 根据路由获取应用，匹配最佳，优先级最高的路由
@@ -48,6 +41,9 @@ export interface IHost {
    */
   routeTo: <T>(path: string, params?: object) => Promise<T>;
 
+  onRoute: IOnRoute;
+  onBeforeRoute: IOnBeforeRoute;
+  onAfterRoute: IOnAfterRoute;
   /**
    * 从一个地址加载应用
    */

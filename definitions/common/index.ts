@@ -7,3 +7,5 @@ export * from "./IRegisterStyleSheets";
 export * from "./IResource";
 export * from "./ILoad";
 export * from "./IRegisterApps";
+export * from "./ICategory";
+ 
