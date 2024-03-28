@@ -1,4 +1,4 @@
-import pkg from "./package.json" assert { type: "json" };
+import pkg from "./demos.json" assert { type: "json" };
 import esbuild from "esbuild";
 import { sassPlugin } from "esbuild-sass-plugin";
 import fs from "fs";
@@ -6,20 +6,20 @@ import path from "path";
 import { dev } from "local-dev-server";
 
 const [mode, from, start] = process.argv.splice(2);
-const startDir = from ?? "./demos";
-if (!fs.existsSync(startDir)) {
-  throw new Error(`Directory ${startDir} does not exist.`);
+const buildFrom = from ?? "./demos";
+if (!fs.existsSync(buildFrom)) {
+  throw new Error(`Directory ${buildFrom} does not exist.`);
 }
 const config = {
   entryRoots: fs
-    .readdirSync(startDir)
-    .map((file) => path.join(startDir, file))
+    .readdirSync(buildFrom)
+    .map((file) => path.join(buildFrom, file))
     .filter(
       (file) =>
         fs.statSync(file).isDirectory() &&
-        !["node_modules", "dist"].includes(path.relative(startDir, file))
+        !["node_modules", "dist"].includes(path.relative(buildFrom, file))
     ),
-  target: "dist",
+  target: "pub",
   copyFolders: ["assets", "images", "workers"],
   entryPoints: ["index.js", "index.ts", "index.jsx", "index.tsx"],
 };
@@ -127,7 +127,7 @@ const options = {
   entryNames:
     entryPoints.length == 1
       ? `${path.join(entryPoints.at(0), "../../")}/[name]`
-      : `${startDir}/[dir]/../[name]`, //src的上层目录
+      : `${mode == "dev" ? buildFrom + "/" : ""}[dir]/../[name]`, //src的上层目录
   outdir: path.join(config.target, entryPoints.length == 1 ? "" : outRoot),
   external: [
     "*.png",
@@ -182,7 +182,7 @@ if (mode == "dev") {
   const { reload } = dev(
     {
       ...pkg.localDev.server,
-      home: "/" + startDir.replace("\\", "/") + "/" + start + "/",
+      home: "/" + buildFrom.replace("\\", "/") + "/" + start + "/",
       response,
     },
     pkg.localDev.apis
@@ -220,20 +220,35 @@ if (mode == "dev") {
   const copyTo = (from, subEntries, target, recursive = false) => {
     subEntries.forEach((copyFolder) => {
       const resourceDir = path.join(from, `./${copyFolder}`);
+
       if (fs.existsSync(resourceDir)) {
         const dirStat = fs.statSync(resourceDir);
-        fs.cpSync(resourceDir, path.join(target, resourceDir), {
-          recursive: dirStat.isDirectory(),
-        });
+
+        fs.cpSync(
+          resourceDir,
+          path.join(target, path.relative(buildFrom, resourceDir)),
+          {
+            recursive: dirStat.isDirectory(),
+          }
+        );
       }
     });
     if (recursive) {
       fs.readdirSync(from)
         .filter((item) => {
-          return (
-            fs.statSync(path.join(from, item)).isDirectory() &&
-            !subEntries.includes(item)
-          );
+          //copy js
+          let filePath = path.join(from, item);
+          let fileStat = fs.statSync(filePath);
+          if (!fileStat.isDirectory() && filePath.endsWith(".js")) {
+            fs.cpSync(
+              filePath,
+              path.join(target, path.relative(buildFrom, filePath)),
+              {
+                recursive: fileStat.isDirectory(),
+              }
+            );
+          }
+          return fileStat.isDirectory() && !subEntries.includes(item);
         })
         .forEach((sub) => {
           copyTo(path.join(from, sub), [...subEntries], target, true);

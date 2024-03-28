@@ -12,6 +12,7 @@ import { h, tag, Component } from "wpa";
 import { AppSharedInfo } from "../../app-shared-info";
 
 export const render: IRender = (container: IAppContainer) => {
+
   container.registerCsses(`
     :host{
       color:red;

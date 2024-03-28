@@ -26,39 +26,21 @@ class SimpleApp extends Component {
   private loadedApps: IApp[] = [];
   private currApp: IApp = null;
   async install() {
-    window.addEventListener("hashchange", async (e) => {
-      const matched = await host.getAppByRoute(this.path);
-      if (
-        matched &&
-        this.loadedApps.every((app) => app.manifest !== matched.manifest)
-      ) {
-        this.loadedApps.push(matched);
-      }
-      this.currApp = matched ?? this.currApp;
-      console.log("find route", matched);
-      this.updateSelf();
-    });
-
     //默认实现中的App 可以有子App
     //需要把子App也加载进来
-    const [appConfig] = await host.loadConfigs(
-      "../shared/configs/app-config.js"
-    );
+    const [appConfig] = await host.loadConfigs("/pub/configs/app-config.js");
 
     this.menus = appConfig.config as Array<AppRegisterInfo>;
     host.registerApps(...this.menus);
 
+    host.onRoute((app, path, params) => {
+      console.log("onRoute", app, path, params);
+      this.updateSelf();
+    });
+
     console.log("config", appConfig);
 
-    // await host.registerApps(infos);
-
-    /**
-     * 首次进入
-     */
-    this.currApp = await host.getAppByRoute(this.path);
-    if (this.currApp) {
-      this.loadedApps.push(this.currApp);
-    }
+    host.routeTo(home, { name: "ljj" });
   }
   get path() {
     return isEmptyOrNullString(location.hash)
@@ -83,12 +65,12 @@ class SimpleApp extends Component {
       <>
         <aside>{this.buildNavs(this.menus)}</aside>
         <main>
-          {this.loadedApps.map((app) => (
+          {host.loadedApps.map((app) => (
             <AppContainerTag
               app={app}
               host={host}
               class={classNames("app-container", {
-                hidden: this.currApp.manifest !== app.manifest,
+                hidden: host.activeApp.manifest !== app.manifest,
               })}
             ></AppContainerTag>
           ))}

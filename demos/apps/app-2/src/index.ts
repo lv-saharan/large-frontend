@@ -18,7 +18,7 @@ export const render: IRender = (container: IContainer) => {
     }
   `);
   const iframe = document.createElement("iframe");
-  iframe.src = "/demos/shared/configs/app-config.js";
+  iframe.src = "/pub/configs/app-config.js";
   return iframe;
 };
 export const manifest: IAppManifest = {

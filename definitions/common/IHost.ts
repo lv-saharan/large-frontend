@@ -22,6 +22,14 @@ export interface IDocument {}
  */
 export interface IHost {
   /**
+   * 激活的应用
+   */
+  readonly activeApp: IApp;
+  /**
+   * 加载的应用
+   */
+  readonly loadedApps: IApp[];
+  /**
    * 注册应用
    */
   registerApps: IRegisterApps;
@@ -39,7 +47,7 @@ export interface IHost {
    * @param params 传递给路由的参数
    * @returns
    */
-  routeTo: <T>(path: string, params?: object) => Promise<T>;
+  routeTo: <T>(path: string, params?: object) => Promise<T> | void;
 
   onRoute: IOnRoute;
   onBeforeRoute: IOnBeforeRoute;

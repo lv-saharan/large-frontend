@@ -1,7 +1,6 @@
 {
   "references": [],
-
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "scripts", "pub"],
   "compilerOptions": {
     "module": "ESNext",
     "target": "ES6",
@@ -15,8 +14,8 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "declaration": true, //生成d.ts esbuild 不支持
-    "emitDeclarationOnly": true,
-    "allowImportingTsExtensions": true,
+    // "emitDeclarationOnly": true,
+    // "allowImportingTsExtensions": true,
     "experimentalDecorators": true /* 启用装饰器 */,
     "emitDecoratorMetadata": true /* 启用装饰器元数据 es不支持*/,
     // "strict": true, //继承接口的对象做完参数会不识别

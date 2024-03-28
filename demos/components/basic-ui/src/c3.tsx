@@ -9,15 +9,15 @@ let count = 1;
 setInterval(() => {
   count++;
 }, 1000);
-export const render: IRender = (props) => {
+export const render: IRender = (container, props: { text: string }) => {
   const el = document.createElement("div");
   el.innerText = props?.text + " :" + count;
   el.addEventListener("click", (e) => {
-    update(el, props);
+    update(container, props);
   });
   return el;
 };
-export const update: IUpdate = (el, props) => {
-  el.innerText = props?.text + " :" + count;
-  return el;
+export const update: IUpdate = (container, props) => {
+  container.element.innerText = props?.text + " :" + count;
+  return container;
 };

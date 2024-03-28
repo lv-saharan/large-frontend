@@ -1,17 +1,12 @@
 {
-  "name": "large-frontend-demos",
-  "version": "1.0.0",
-  "description": "large-frontend demos",
-  "author": "jun",
-  "type": "module",
   "externals": {
     "^wpa$": {
       "dev": "/node_modules/wpa/dist/wpa.js",
-      "prod": "/es-lib/wpa/latest/wpa.js"
+      "prod": "/node_modules/wpa/dist/wpa.js"
     },
     "^wpa-ui$": {
       "dev": "/node_modules/wpa-ui/dist/wpa-ui.js",
-      "prod": "/es-lib/wpa-ui/latest/wpa-ui.js"
+      "prod": "/node_modules/wpa-ui/dist/wpa-ui.js"
     },
     "^~/": {
       "dev": "/",

@@ -16,7 +16,7 @@ export const render: IRender = ({ registerCsses }) => {
     }
   `);
   const h1 = document.createElement("h1");
-  h1.innerHTML="hello,2.2"
+  h1.innerHTML = "hello,2.2";
   return h1;
 };
 export const manifest: IAppManifest = {

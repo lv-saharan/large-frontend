@@ -31,20 +31,19 @@ export class BaseHost implements IHost {
   /**
    * 已经加载的应用
    */
-  private loadedApps: Array<IApp> = [];
+  loadedApps: Array<IApp> = [];
 
-
-  private currApp: IApp;
+  activeApp: IApp;
 
   private onRouteCallbacks: IOnRouteCallback[] = [];
 
   private onBeforeRouteCallbacks: IOnRouteCallback[] = [];
-  
+
   private onAfterRouteCallbacks: IOnRouteCallback[] = [];
 
   get currPath() {
     return isEmptyOrNullString(location.hash)
-      ? "/app-1"
+      ? "/"
       : location.hash.substring(1);
   }
   constructor(load: ILoad) {
@@ -58,10 +57,19 @@ export class BaseHost implements IHost {
 
     window.addEventListener("hashchange", async (e) => {
       const matched = await this.getAppByRoute(this.currPath);
-      let cancel = false;
       if (matched) {
-        for (let cb of this.beforeRouteCallbacks) {
-          if (cb(this.currPath, matched.manifest) === false) {
+        let [path, paramsString] = this.currPath.split("?");
+        let params = {};
+        if (!isEmptyOrNullString(paramsString)) {
+          params = paramsString.split("&").reduce((prev, curr) => {
+            const [key, value] = curr.split("=");
+            prev[key] = value;
+            return prev;
+          }, {});
+        }
+
+        for (let cb of this.onBeforeRouteCallbacks) {
+          if (cb(matched, path, params) === false) {
             console.log("beforeRoute canceled");
             return;
           }
@@ -69,18 +77,20 @@ export class BaseHost implements IHost {
         if (this.loadedApps.every((app) => app.manifest !== matched.manifest)) {
           this.loadedApps.push(matched);
         }
-        for (let cb of this.routeCallbacks) {
-          cb(this.currPath, matched.manifest);
+
+        for (let cb of this.onRouteCallbacks) {
+          cb(matched, path, params);
         }
 
-        for (let cb of this.afterRouteCallbacks) {
-          cb(this.currPath, matched.manifest);
+        for (let cb of this.onAfterRouteCallbacks) {
+          cb(matched, path, params);
         }
       } else {
         console.log("not found matched app");
       }
 
-      this.currApp = matched ?? this.currApp;
+      this.activeApp = matched ?? this.activeApp;
+
       console.log("find route", matched);
     });
   }
@@ -134,9 +144,13 @@ export class BaseHost implements IHost {
       }, null);
 
     if (matched == null) return Promise.resolve(null);
-
-    const apps = await this.loadApps(matched.src);
-
+    let apps: IApp[];
+    try {
+      apps = await this.loadApps(matched.src);
+    } catch (exc) {
+      console.error("App load error", exc);
+      return Promise.resolve(null);
+    }
     const sortedApps = (apps ?? [])
       .filter(
         (app) =>
@@ -174,5 +188,22 @@ export class BaseHost implements IHost {
     }
     return null;
   }
-  routeTo: <T>(path: string, params?: object) => Promise<T>;
+  routeTo(path: string, params?: object) {
+    let searchParams = new URLSearchParams();
+    if (params) {
+      for (let key in params) {
+        if (params.hasOwnProperty(key)) {
+          searchParams.set(key, params[key]);
+        }
+      }
+    }
+    let newPath = `#${path}${
+      searchParams.size ? `?${searchParams.toString()}` : ""
+    }`;
+    if (newPath !== location.hash) {
+      location.hash = newPath;
+    } else {
+      window.dispatchEvent(new HashChangeEvent("hashchange"));
+    }
+  }
 }
