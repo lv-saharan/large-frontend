@@ -5,11 +5,11 @@ import { AppSharedInfo } from "../../app-shared-info";
 export const render: IRender = ({ registerCsses }, props) => {
   registerCsses &&
     registerCsses(`
-  :host{
+  :host li{
     display:block;
     line-height:1.5;
     font-size:14px;
-    color:#333;
+    color:#333999;
   }`);
   const app = document.createElement("div");
 

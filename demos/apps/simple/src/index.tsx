@@ -25,6 +25,7 @@ class SimpleApp extends Component {
   private menus: AppRegisterInfo[];
   private loadedApps: IApp[] = [];
   private currApp: IApp = null;
+
   async install() {
     //默认实现中的App 可以有子App
     //需要把子App也加载进来
@@ -79,4 +80,14 @@ class SimpleApp extends Component {
     );
   }
 }
-render(<simple-app></simple-app>, document.body);
+render(
+  <simple-app
+    theme-css={`
+:host{
+  background-color: #f0f0f0;
+  font-size:3rem;
+}
+`}
+  ></simple-app>,
+  document.body
+);

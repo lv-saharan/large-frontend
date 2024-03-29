@@ -33,8 +33,13 @@ export const load: ILoad = async (src: string) => {
     iframeDocument.head.appendChild(iframeScript);
     promise = new Promise((resolve, reject) => {
       iframeWindow.addEventListener("appLoad", (e) => {
-        const { default: resources = [], ...resource } = e["detail"];
-        resolve([...resources, resource].filter((r) => r.manifest));
+        const { default: resources, ...resource } = e["detail"];
+        resolve(
+          [
+            ...(Array.isArray(resources) ? resources : [resources]),
+            resource,
+          ].filter((r) => r?.manifest)
+        );
       });
 
       iframeWindow.addEventListener("appError", (e) => {

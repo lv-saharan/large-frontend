@@ -110,6 +110,14 @@ const externalPlugin = {
   },
 };
 
+const checkerPlugin = {
+  name: "checker",
+  setup(build) {
+    build.onResolve({ filter: /.*/ }, async (args) => {
+      console.log(args);
+    });
+  },
+};
 const options = {
   // jsxImportSource: "wpa",
   // jsx: 'automatic',
@@ -143,6 +151,7 @@ const options = {
     "*.otf",
   ],
   plugins: [
+    // checkerPlugin,
     externalPlugin,
     sassPlugin({
       filter: /css[\/\\]src/,
