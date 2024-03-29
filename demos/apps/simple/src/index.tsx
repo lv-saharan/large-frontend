@@ -80,14 +80,17 @@ class SimpleApp extends Component {
     );
   }
 }
-render(
-  <simple-app
-    theme-css={`
-:host{
-  background-color: #f0f0f0;
-  font-size:3rem;
-}
-`}
-  ></simple-app>,
-  document.body
-);
+
+/**
+ * 主题样式
+ */
+import themeCss from "./theme.scss";
+render(<simple-app theme-css={themeCss}></simple-app>, document.body);
+
+/**
+ * 全局样式
+ */
+import globalCss from "./global.scss";
+
+render(<style>{globalCss}</style>, document.head);
+
