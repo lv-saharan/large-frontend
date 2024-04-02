@@ -5,8 +5,9 @@
   "author": "jun",
   "type": "module",
   "scripts": {
-    "start": "node scripts/build-demos.js dev ./demos apps/simple",
-    "build-demos": "node scripts/build-demos.js prod ./demos"
+    "start": "node scripts/build-dev.js dev ./dev apps/main",
+    "pub": "node scripts/start-pub.js",
+    "build": "node scripts/build-dev.js prod ./dev"
   },
   "dependencies": {
     "mitt": "^3.0.1",

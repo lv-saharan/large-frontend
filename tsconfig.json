@@ -25,7 +25,8 @@
     "alwaysStrict": true,
     "paths": {
       "definition": ["definitions/index.ts"],
-      "implements": ["implements/index.ts"]
+      "implements": ["implements/index.ts"],
+      "//*": ["dev/*/src", "pub/*/latest"]
     }
   }
 }

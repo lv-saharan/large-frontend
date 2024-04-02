@@ -19,6 +19,10 @@ export enum ResourceType {
    */
   CSS = "CSS",
   /**
+   * 配置
+   */
+  CONFIG = "CONFIG",
+  /**
    * 资源
    */
   ASSET = "ASSET",

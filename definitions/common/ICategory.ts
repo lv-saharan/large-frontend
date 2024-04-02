@@ -5,5 +5,5 @@ export interface ICategory {
   id: number | string;
   name: string;
   parentId?: number | string;
-  children: ICategory[];
+  children?: ICategory[];
 }

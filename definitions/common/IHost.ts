@@ -25,6 +25,11 @@ export interface IHost {
    * 激活的应用
    */
   readonly activeApp: IApp;
+
+  /**
+   * 当前路径
+   */
+  readonly currPath: string;
   /**
    * 加载的应用
    */

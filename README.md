@@ -6,10 +6,15 @@ large-frontend,include everything
 
 define the large-frontend interface
 
-## masters
+## implements
 
-the apps' loader
+implements of  the large-frontend interface
 
-## demos
 
-project demos
+## dev
+
+project dev
+
+## pub
+
+pub folder

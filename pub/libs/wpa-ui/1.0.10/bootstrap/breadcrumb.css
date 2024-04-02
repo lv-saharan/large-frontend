@@ -1,0 +1,6 @@
+/*!
+ * Bootstrap  v5.2.3 (https://getbootstrap.com/)
+ * Copyright 2011-2022 The Bootstrap Authors
+ * Copyright 2011-2022 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ */.breadcrumb{--wp-breadcrumb-padding-x: 0;--wp-breadcrumb-padding-y: 0;--wp-breadcrumb-margin-bottom: 1rem;--wp-breadcrumb-bg: ;--wp-breadcrumb-border-radius: ;--wp-breadcrumb-divider-color: #6c757d;--wp-breadcrumb-item-padding-x: .5rem;--wp-breadcrumb-item-active-color: #6c757d;display:flex;flex-wrap:wrap;padding:var(--wp-breadcrumb-padding-y) var(--wp-breadcrumb-padding-x);margin-bottom:var(--wp-breadcrumb-margin-bottom);font-size:var(--wp-breadcrumb-font-size);list-style:none;background-color:var(--wp-breadcrumb-bg);border-radius:var(--wp-breadcrumb-border-radius)}.breadcrumb-item+.breadcrumb-item{padding-left:var(--wp-breadcrumb-item-padding-x)}.breadcrumb-item+.breadcrumb-item:before{float:left;padding-right:var(--wp-breadcrumb-item-padding-x);color:var(--wp-breadcrumb-divider-color);content:var(--wp-breadcrumb-divider, "/")}.breadcrumb-item.active{color:var(--wp-breadcrumb-item-active-color)}
