@@ -6,7 +6,12 @@ export const manifest = createManifest("c1");
 
 @tag(manifest.tag)
 class C1 extends Component {
+  css=`
+    h2 {
+      color: blue;
+    }
+  `
   render() {
-    return <h2>C1</h2>;
+    return <h2>C1:{manifest.version}</h2>;
   }
 }

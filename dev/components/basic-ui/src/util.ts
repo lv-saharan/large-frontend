@@ -1,13 +1,10 @@
 import { IComponentManifest, ResourceType, Version } from "definitions";
-
+import { version } from "../package.json";
 const TagPrefix = "com.hh.ui.basic";
 
-export function createManifest(
-  name: string,
-  version: string = "1.0.0"
-): IComponentManifest {
+export function createManifest(name: string): IComponentManifest {
   return {
-    tag: `${TagPrefix}-${name}`,
+    tag: `${TagPrefix}-${name}-${version}`,
     name,
     version,
     resourceType: ResourceType.COMPONENT,

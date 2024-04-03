@@ -11,8 +11,11 @@ import { h, tag, Component } from "wpa";
 
 import { AppSharedInfo } from "../../app-shared-info";
 
-export const render: IRender = (container: IAppContainer) => {
+import { c1 } from "/components/basic-ui/1.0.0";
 
+import { c1 as c1_1 } from "/components/basic-ui";
+
+export const render: IRender = (container: IAppContainer) => {
   container.registerCsses(`
     :host{
       color:red;
@@ -23,7 +26,15 @@ export const render: IRender = (container: IAppContainer) => {
   );
   return (
     <div>
-      第三个App3 定义
+      第三个App3 定义，使用自定义组件的多个版本
+      <fieldset>
+        <legend>C1 组件1.0.0</legend>
+        <c1.manifest.tag />
+      </fieldset>
+      <fieldset>
+        <legend>C1 组件1.0.1</legend>
+        <c1_1.manifest.tag />
+      </fieldset>
       <a href={`#${container.routeInfo.path}/2`}>App3.2</a>
     </div>
   );
