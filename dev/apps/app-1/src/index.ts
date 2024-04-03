@@ -37,7 +37,10 @@ export function mount(container: IAppContainer) {
   container.on("appMount", (data) => {
     console.log("appMount", data);
   });
-  container.emit("appMount", { "app-1": 123 });
+  let times = 0;
+  setInterval(() => {
+    container.emit("appMount", { "app-1": times++ });
+  }, 2000);
 }
 export const manifest: IAppManifest = {
   get name() {
