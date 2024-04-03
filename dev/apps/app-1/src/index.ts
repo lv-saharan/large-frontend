@@ -2,6 +2,8 @@ import { AppType, IAppContainer, IAppManifest, IRender } from "definitions";
 
 import { AppSharedInfo } from "../../app-shared-info";
 
+import { version } from "../package.json";
+
 export const render: IRender = ({ registerCsses }, props) => {
   registerCsses &&
     registerCsses(`
@@ -48,7 +50,7 @@ export const manifest: IAppManifest = {
     return false;
   },
   get version() {
-    return "1.0.0";
+    return version;
   },
 
   ...AppSharedInfo,

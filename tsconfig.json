@@ -26,7 +26,7 @@
     "paths": {
       "definition": ["definitions/index.ts"],
       "implements": ["implements/index.ts"],
-      "//*": ["dev/*/src", "pub/*/latest"]
+      "/*": ["dev/*/src", "pub/*/latest"]
     }
   }
 }

@@ -1,5 +1,5 @@
 import { h, tag, render, Component, classNames } from "wpa";
-import { config } from "//configs/apps";
+import { config } from "/configs/apps";
 
 import { IApp } from "definitions";
 

@@ -19,6 +19,6 @@
     "@types/node-sass": "^4.11.7",
     "esbuild": "0.19.11",
     "esbuild-sass-plugin": "^2.10.0",
-    "local-dev-server": "^1.0.19"
+    "local-dev-server": "^1.0.23"
   }
 }

@@ -21,6 +21,9 @@ export const render: IRender = (container: IContainer) => {
   iframe.src = import.meta.url;
   return iframe;
 };
+
+import { version } from "../package.json";
+
 export const manifest: IAppManifest = {
   get name() {
     return "SECOND-APP";
@@ -37,7 +40,7 @@ export const manifest: IAppManifest = {
     return false;
   },
   get version() {
-    return "1.0.0";
+    return version;
   },
 
   ...AppSharedInfo,

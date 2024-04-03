@@ -1,4 +1,22 @@
 {
+  "target": "pub",
+  "defaultVersion": "1.0.0",
+  "copyFolders": [
+    "assets",
+    "images",
+    "workers"
+  ],
+  "entryPoints": [
+    "index.js",
+    "index.ts",
+    "index.jsx",
+    "index.tsx"
+  ],
+  "excludeEntryFolders": [
+    "node_modules",
+    "dist",
+    "pub"
+  ],
   "externals": [
     "*.png",
     "*.jpg",
@@ -13,10 +31,13 @@
     "*.otf"
   ],
   "externalRules": {
-    "^wpa$": "/libs/wpa/1.0.13/wpa.js",
-    "^wpa-ui$": "/libs/wpa-ui/1.0.10/wpa-ui.js",
+    "^wpa$": {
+      "prod": "/libs/wpa/latest/wpa.js",
+      "dev": "/node_modules/wpa/dist/wpa.js"
+    },
+    "^wpa-ui$": "/node_modules/wpa-ui/dist/wpa-ui.js",
     "^vue@2.7.16": "/libs/vue/2.7.16/esm/vue.min.js",
-    "^//(.+)": {
+    "^/(.+)": {
       "buildIn": false,
       "dev": "/$1/index.js",
       "prod": "/$1/"

@@ -4,7 +4,7 @@ import { sassPlugin } from "esbuild-sass-plugin";
 import fs from "fs";
 import path from "path";
 import { dev } from "local-dev-server";
-
+import { tryFiles } from "./try-files.js";
 const [mode, from, start] = process.argv.splice(2);
 
 const buildFrom = from ?? "./dev";
@@ -19,11 +19,11 @@ const config = {
     .filter(
       (file) =>
         fs.statSync(file).isDirectory() &&
-        !["node_modules", "dist"].includes(path.relative(buildFrom, file))
+        !pkg.excludeEntryFolders.includes(path.relative(buildFrom, file))
     ),
-  target: "pub",
-  copyFolders: ["assets", "images", "workers"],
-  entryPoints: ["index.js", "index.ts", "index.jsx", "index.tsx"],
+  target: pkg.target,
+  copyFolders: pkg.copyFolders,
+  entryPoints: pkg.entryPoints,
 };
 
 console.log("Config", config);
@@ -68,7 +68,7 @@ console.log("EntryPoints", entryPoints);
 //define global externals
 const externalRules = [];
 for (let [key, rule] of Object.entries(pkg.externalRules ?? {})) {
-  //是否远程打包进来
+  //是否远程打包进来 fetch js 直接打包进来小功能
   const buildIn = rule.buildIn ?? false;
   const path = typeof rule === "string" ? rule : rule[mode];
 
@@ -97,14 +97,6 @@ const externalPlugin = {
   },
 };
 
-const checkerPlugin = {
-  name: "checker",
-  setup(build) {
-    build.onResolve({ filter: /.*/ }, async (args) => {
-      console.log(args);
-    });
-  },
-};
 const options = {
   jsxFactory: "h",
   jsxFragment: "h.f",
@@ -163,44 +155,46 @@ if (mode == "dev") {
     ],
   };
   let buildResult = null;
-  //自定义返回从esbuild中查找
-  const response = (filePath, res) => {
-    // console.error(filePath, buildResult?.outputFiles);
-    const outfile = buildResult?.outputFiles.find(
-      (file) => file.path == filePath
-    );
-    let type = "text/html";
-    if (/\.js$/.test(filePath)) {
-      type = "application/javascript";
-    }
-    if (/\.css$/.test(filePath)) {
-      type = "text/css";
-    }
-    res.setHeader("Content-Type", `${type};charset=utf-8`);
-
-    if (outfile) {
-      res.end(outfile.contents);
-      return true;
-    }
-    //开发目录查找不到，进入pub目录查找
-    if (!fs.existsSync(filePath)) {
-      let reqPath = path.relative(buildFrom, filePath);
-      let pubPath = path.resolve("pub", reqPath);
-      if (fs.existsSync(pubPath)) {
-        fs.createReadStream(pubPath).pipe(res);
-        return true;
-      }
-    }
-
-    return false;
-  };
 
   const ctx = await esbuild.context(devOptions);
   const { reload } = dev(
     {
       root: buildFrom,
       home: `/${start}/`,
-      response,
+      response(filePath, res, { reqDir, fileName, extName }) {
+        if (fs.existsSync(filePath)) {
+          return false;
+        }
+        const outfile = buildResult?.outputFiles.find(
+          (file) => file.path == filePath
+        );
+        let type = "text/html";
+        if (/\.js$/.test(filePath)) {
+          type = "application/javascript";
+        }
+        if (/\.css$/.test(filePath)) {
+          type = "text/css";
+        }
+        res.setHeader("Content-Type", `${type};charset=utf-8`);
+
+        if (outfile) {
+          res.end(outfile.contents);
+          return true;
+        }
+
+        const tryFilePath = tryFiles(
+          reqDir.startsWith("/node_modules/") ? "." : pkg.target,
+          { reqDir, fileName, extName }
+        );
+
+        //开发目录查找不到，进入pub目录查找
+        if (fs.existsSync(tryFilePath)) {
+          fs.createReadStream(tryFilePath).pipe(res);
+          return true;
+        }
+
+        return false;
+      },
       ...pkg.dev.server,
     },
     pkg.dev.apis
@@ -208,6 +202,7 @@ if (mode == "dev") {
   await ctx.watch();
   console.log("watching.........................................");
 } else if (mode == "prod") {
+  //发布编译
   //拷贝所有资源目录
   const copyTo = (from, subEntries, target, recursive = false) => {
     subEntries.forEach((copyFolder) => {
@@ -249,12 +244,23 @@ if (mode == "dev") {
     );
   });
 
-  console.log("build options", options);
+  // console.log("build options", options);
 
-  entryPoints.forEach(async (entry) => {
+  for (let entry of entryPoints) {
     let entryNames = "[dir]/../latest/[name]";
+    let packagePath = path.join(entry, "../../package.json");
+    let version = pkg.defaultVersion;
     if (entry.endsWith(".scss")) {
       entryNames = "[dir]/../../latest/css/[name]";
+      packagePath = path.join(entry, "../../../package.json");
+    }
+    if (fs.existsSync(packagePath)) {
+      try {
+        let pkg = JSON.parse(fs.readFileSync(packagePath));
+        version = pkg.version;
+      } catch (exc) {
+        console.log("load pkg error", pkg, exc);
+      }
     }
     const result = await esbuild.build({
       ...options,
@@ -262,11 +268,17 @@ if (mode == "dev") {
       outdir: config.target,
       entryPoints: [entry],
       entryNames,
-      // metafile: true, //对结果进行分析
+      metafile: true, //对结果进行分析
     });
-
+    for (let outfile in result.metafile.outputs) {
+      let outdir = path.join(outfile, "../");
+      let copydir = outdir.replace(/([\\//])latest([\\//])/, `$1${version}$2`);
+      fs.cpSync(outdir, copydir, {
+        recursive: true,
+      });
+    }
     // console.log("build result", result);
-  });
+  }
 
   console.log(`build  ok!`);
 }

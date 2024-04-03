@@ -3,16 +3,17 @@ import pkg from "./dev-settings.json" assert { type: "json" };
 
 import fs from "fs";
 import path from "path";
-const root = "pub";
+import { tryFiles } from "./try-files.js";
+
+const root = pkg.target;
 const { reload } = dev({
   port: pkg.pub.server.port,
   root,
-  home: "/apps/simple/",
-  response(filePath, res) {
+  home: "/apps/main/",
+  response(filePath, res, { reqDir, fileName, extName }) {
     if (fs.existsSync(filePath)) {
       return false;
     }
-    filePath = filePath.replace(/\\index/, "\\latest\\index");
     //有这个目录
     let type = "text/html";
     if (/\.js$/.test(filePath)) {
@@ -23,41 +24,15 @@ const { reload } = dev({
     }
     res.setHeader("Content-Type", `${type};charset=utf-8`);
 
-    if (fs.existsSync(filePath)) {
-      if (fs.statSync(filePath).isDirectory()) {
-        //有没有index.html
-        const indexHtml = path.join(filePath, "index.html");
-        if (fs.existsSync(indexHtml)) {
-          fs.createReadStream(indexHtml).pipe(res);
-          return true;
-        }
-        const latestHtml = path.join(filePath, "latest", "index.html");
-        if (fs.existsSync(latestHtml)) {
-          fs.createReadStream(latestHtml).pipe(res);
-          return true;
-        }
-        const indexJs = path.join(filePath, "index.js");
-        if (fs.existsSync(indexJs)) {
-          fs.createReadStream(indexJs).pipe(res);
-          return true;
-        }
-        const latestJs = path.join(filePath, "latest", "index.js");
-        if (fs.existsSync(latestJs)) {
-          fs.createReadStream(latestJs).pipe(res);
-          return true;
-        }
+    const tryFilePath = tryFiles(
+      reqDir.startsWith("/node_modules/") ? "." : pkg.target,
+      { reqDir, fileName, extName }
+    );
 
-        return false;
-      } else {
-        fs.createReadStream(filePath).pipe(res);
-        return true;
-      }
-    } else if (type == "text/css") {
-      filePath = filePath.replace(/\\css\\/, "\\latest\\css\\");
-      if (fs.existsSync(filePath)) {
-        fs.createReadStream(filePath).pipe(res);
-        return true;
-      }
+    //开发目录查找不到，进入pub目录查找
+    if (fs.existsSync(tryFilePath)) {
+      fs.createReadStream(tryFilePath).pipe(res);
+      return true;
     }
   },
 });
