@@ -1,3 +1,4 @@
+import { IMessage, IMessageEmit, IMessageOff, IMessageOn } from "definition";
 import { IHost } from "./IHost";
 import { IRegisterCsses } from "./IRegisterCsses";
 import { IRegisterStyleSheets } from "./IRegisterStyleSheets";
@@ -5,7 +6,7 @@ import { IRegisterStyleSheets } from "./IRegisterStyleSheets";
 /**
  * 容器接口
  */
-export interface IContainer {
+export interface IContainer extends IMessage<string> {
   /**
    * 注册css
    */
@@ -14,6 +15,7 @@ export interface IContainer {
    * 注册样式表
    */
   registerStyleSheets: IRegisterStyleSheets;
+
   /**
    * 宿主
    */

@@ -38,6 +38,7 @@ class WpaAppContainer extends WpaContainer implements IAppContainer {
     return this.props.props ?? {};
   }
   installed() {
+    super.installed();
     const app = this.app;
     if (
       typeof app.render === "function" &&
@@ -47,6 +48,9 @@ class WpaAppContainer extends WpaContainer implements IAppContainer {
       if (el instanceof HTMLElement) {
         this.shadowRoot.appendChild(el);
       }
+    }
+    if (typeof app.mount === "function") {
+      app.mount(this);
     }
   }
   render(props) {
@@ -61,5 +65,12 @@ class WpaAppContainer extends WpaContainer implements IAppContainer {
       return app.render(this, this.appProps);
     }
     return null;
+  }
+
+  uninstall(): void {
+    super.uninstall();
+    if (typeof this.app.unMount === "function") {
+      this.app.unMount(this);
+    }
   }
 }

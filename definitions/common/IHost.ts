@@ -11,6 +11,7 @@ import {
 } from "./ILoad";
 import { IRegisterApps } from "./IRegisterApps";
 import { IOnAfterRoute, IOnBeforeRoute, IOnRoute } from "../lifecycle/IRoute";
+import { IMessage, IMessageEmit, IMessageOff, IMessageOn } from "definition";
 
 export interface IWindow {}
 
@@ -20,7 +21,7 @@ export interface IDocument {}
  * 宿主，提供宿主相关的服务
  * 多个宿主可以同时存在
  */
-export interface IHost {
+export interface IHost extends IMessage<string> {
   /**
    * 激活的应用
    */
@@ -57,6 +58,7 @@ export interface IHost {
   onRoute: IOnRoute;
   onBeforeRoute: IOnBeforeRoute;
   onAfterRoute: IOnAfterRoute;
+
   /**
    * 从一个地址加载应用
    */

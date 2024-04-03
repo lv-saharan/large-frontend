@@ -3,6 +3,15 @@ import { isEmptyOrNullString } from "implements/common/Util";
 import { h, tag, render, Component } from "wpa";
 
 export class WpaContainer extends Component implements IContainer {
+  get on() {
+    return this.host.on;
+  }
+  get off() {
+    return this.host.off;
+  }
+  get emit() {
+    return this.host.emit;
+  }
   props = { host: null as IHost };
   get host(): IHost {
     return this.props.host;

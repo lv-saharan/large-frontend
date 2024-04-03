@@ -14,6 +14,9 @@ import {
   ILoadConfigs,
   ILoadCsses,
   ILoadFunctions,
+  IMessageEmit,
+  IMessageOff,
+  IMessageOn,
   IOnAfterRoute,
   IOnBeforeRoute,
   IOnRoute,
@@ -21,7 +24,8 @@ import {
   IResource,
 } from "definitions";
 import { isEmptyOrNullString, trim, trimEnd } from "../common/Util";
-import { AppRegisterInfo } from "implements/common";
+import { AppRegisterInfo, MessageEventType } from "implements/common";
+import mitt, { EventType, Handler } from "mitt";
 
 export class BaseHost implements IHost {
   /**
@@ -46,6 +50,8 @@ export class BaseHost implements IHost {
       ? "/"
       : location.hash.substring(1);
   }
+  private eventBus = mitt();
+
   constructor(load: ILoad) {
     this.load = load;
     this.loadApps = load<IApp>;
@@ -94,6 +100,15 @@ export class BaseHost implements IHost {
       console.log("find route", matched);
     });
   }
+  on: IMessageOn<EventType> = (type, callback) => {
+    this.eventBus.on(type, callback as Handler);
+  };
+  off: IMessageOff<EventType> = (type) => {
+    this.eventBus.off(type);
+  };
+  emit: IMessageEmit<EventType> = (type, data) => {
+    this.eventBus.emit(type, data);
+  };
   onRoute: IOnRoute = (...callbacks) => {
     this.onRouteCallbacks.push(...callbacks);
   };

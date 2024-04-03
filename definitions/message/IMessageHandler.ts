@@ -1,3 +1,4 @@
-export interface IMessageHandler<T = unknown> {
-  (event: T, data: any): void;
+export interface IMessageHandler {
+  (data: any): void;
 }
+1;

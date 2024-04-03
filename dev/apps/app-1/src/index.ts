@@ -33,7 +33,12 @@ export const render: IRender = ({ registerCsses }, props) => {
 
   return app;
 };
-
+export function mount(container: IAppContainer) {
+  container.on("appMount", (data) => {
+    console.log("appMount", data);
+  });
+  container.emit("appMount", { "app-1": 123 });
+}
 export const manifest: IAppManifest = {
   get name() {
     return "FIRST-APP";

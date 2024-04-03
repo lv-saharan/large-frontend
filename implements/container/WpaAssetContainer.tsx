@@ -5,17 +5,23 @@ import {
   IAsset,
   IContainer,
   IHost,
+  IMessageEmit,
+  IMessageOff,
+  IMessageOn,
   IResource,
 } from "definitions";
 import { IAssetContainer } from "definitions/asset/IAssetContainer";
 import { isEmptyOrNullString } from "implements/common/Util";
 import { h, tag, render, Component } from "wpa";
 import { WpaContainer } from "./WpaContainer";
+import { EventType } from "mitt";
 
 export const WpaAssetContainerTag = "large-wpa-asset-container";
 
 @tag(WpaAssetContainerTag)
 export class WpaAssetContainer extends WpaContainer implements IAssetContainer {
+
+  element?: HTMLElement;
   props = {
     asset: null as IAsset,
     props: null as any,
