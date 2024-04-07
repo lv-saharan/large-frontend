@@ -20,6 +20,7 @@
   "externalRules": {
     "^wpa$": {
       "prod": "/libs/wpa/latest/wpa.js",
+      "remote": "/node_modules/wpa/dist/wpa.js",
       "dev": "/node_modules/wpa/dist/wpa.js"
     },
     "^wpa-ui$": "/node_modules/wpa-ui/dist/wpa-ui.js",
@@ -27,6 +28,7 @@
     "^/(.+)": {
       "buildIn": false,
       "dev": "/$1/index.js",
+      "remote": "/$1/index.js",
       "prod": "/$1/"
     }
   },

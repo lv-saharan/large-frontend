@@ -5,10 +5,10 @@
   "author": "jun",
   "type": "module",
   "scripts": {
-    "start": "node scripts/build-dev.js dev ./dev apps/main",
-    "remote": "node scripts/build-dev.js dev ./dev apps/main remote",
-    "build": "node scripts/build-dev.js prod ./dev",
-    "pub": "node scripts/start-pub.js"
+    "start": "node scripts/build.js dev",
+    "remote": "node scripts/build.js remote",
+    "build": "node scripts/build.js prod",
+    "pub": "node scripts/build.js pub"
   },
   "dependencies": {
     "mitt": "^3.0.1",

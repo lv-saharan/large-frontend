@@ -1,13 +1,14 @@
-import pkg from "./dev-settings.json" assert { type: "json" };
+import pkg from "./settings.json" assert { type: "json" };
 import esbuild from "esbuild";
 import { sassPlugin } from "esbuild-sass-plugin";
 import fs from "fs";
 import path from "path";
 import { dev, proxy } from "local-dev-server";
-import { tryFiles } from "./try-files.js";
-const [mode, from, start, remote] = process.argv.splice(2);
 
-const buildFrom = from ?? "./dev";
+const [mode = "dev", from = "./dev", start = "apps/main"] =
+  process.argv.splice(2);
+
+const buildFrom = from;
 
 if (!fs.existsSync(buildFrom)) {
   throw new Error(`Directory ${buildFrom} does not exist.`);
@@ -124,8 +125,38 @@ const options = {
   loader: {},
 };
 
+/**
+ * 这些路径尝试重定向到latest
+ */
+const tryDirs = [...pkg.copyFolders, "css"];
+function tryFiles(root, { reqDir, fileName, extName }) {
+  let filePath = path.join(root, reqDir, `${fileName}${extName}`);
+  if (fs.existsSync(filePath)) {
+    return filePath;
+  }
+
+  //check lastest/
+  filePath = path.join(root, reqDir, "latest", `${fileName}${extName}`);
+  if (fs.existsSync(filePath)) {
+    return filePath;
+  }
+  const paths = reqDir.split("/");
+  for (let dir of tryDirs) {
+    const index = paths.indexOf(dir);
+    if (index != -1) {
+      paths.splice(index, 0, "latest");
+      filePath = path.join(root, paths.join("/"), `${fileName}${extName}`);
+      if (fs.existsSync(filePath)) {
+        return filePath;
+      }
+    }
+  }
+
+  return filePath;
+}
+
 //create http server
-if (mode == "dev") {
+if (mode == "dev" || mode == "remote") {
   const devOptions = {
     ...options,
     write: false,
@@ -188,7 +219,7 @@ if (mode == "dev") {
             return true;
           }
         }
-        if (remote !== "remote") {
+        if (mode !== "remote") {
           const tryFilePath = tryFiles(pkg.target, {
             reqDir,
             fileName,
@@ -219,6 +250,37 @@ if (mode == "dev") {
   );
   await ctx.watch();
   console.log("watching.........................................");
+} else if (mode == "pub") {
+  const { reload } = dev({
+    port: pkg.pub.server.port,
+    root: pkg.target,
+    home: `/${start}/`,
+    response(filePath, res, { reqDir, fileName, extName }) {
+      if (fs.existsSync(filePath)) {
+        return false;
+      }
+      //有这个目录
+      let type = "text/html";
+      if (/\.js$/.test(filePath)) {
+        type = "application/javascript";
+      }
+      if (/\.css$/.test(filePath)) {
+        type = "text/css";
+      }
+      res.setHeader("Content-Type", `${type};charset=utf-8`);
+
+      const tryFilePath = tryFiles(
+        reqDir.startsWith("/node_modules/") ? "." : pkg.target,
+        { reqDir, fileName, extName }
+      );
+
+      //开发目录查找不到，进入pub目录查找
+      if (fs.existsSync(tryFilePath)) {
+        fs.createReadStream(tryFilePath).pipe(res);
+        return true;
+      }
+    },
+  });
 } else if (mode == "prod") {
   //发布编译
   //拷贝所有资源目录
