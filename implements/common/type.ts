@@ -8,9 +8,14 @@ export type AppRegisterInfo = IAppRouteInfo & {
    *显示名称
    */
   name: string;
- 
+
   /**
    * 子节点
    */
   children?: AppRegisterInfo[];
+};
+
+export type MessageEventType = {
+  type: string;
+  data?: any;
 };

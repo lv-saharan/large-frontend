@@ -6,8 +6,9 @@
   "type": "module",
   "scripts": {
     "start": "node scripts/build-dev.js dev ./dev apps/main",
-    "pub": "node scripts/start-pub.js",
-    "build": "node scripts/build-dev.js prod ./dev"
+    "remote": "node scripts/build-dev.js dev ./dev apps/main remote",
+    "build": "node scripts/build-dev.js prod ./dev",
+    "pub": "node scripts/start-pub.js"
   },
   "dependencies": {
     "mitt": "^3.0.1",
@@ -19,6 +20,6 @@
     "@types/node-sass": "^4.11.7",
     "esbuild": "0.19.11",
     "esbuild-sass-plugin": "^2.10.0",
-    "local-dev-server": "^1.0.23"
+    "local-dev-server": "^1.0.25"
   }
 }

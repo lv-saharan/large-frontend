@@ -1,22 +1,9 @@
 {
   "target": "pub",
   "defaultVersion": "1.0.0",
-  "copyFolders": [
-    "assets",
-    "images",
-    "workers"
-  ],
-  "entryPoints": [
-    "index.js",
-    "index.ts",
-    "index.jsx",
-    "index.tsx"
-  ],
-  "excludeEntryFolders": [
-    "node_modules",
-    "dist",
-    "pub"
-  ],
+  "copyFolders": ["assets", "images", "workers"],
+  "entryPoints": ["index.js", "index.ts", "index.jsx", "index.tsx"],
+  "excludeEntryFolders": ["node_modules", "dist", "pub"],
   "externals": [
     "*.png",
     "*.jpg",
@@ -52,6 +39,14 @@
     "server": {
       "port": 7902
     },
+    "remotes": [
+      {
+        "host": "localhost",
+        "port": 7903,
+        "from": "/",
+        "to": "/"
+      }
+    ],
     "apis": [
       {
         "host": "localhost",

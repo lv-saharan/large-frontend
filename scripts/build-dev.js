@@ -3,9 +3,9 @@ import esbuild from "esbuild";
 import { sassPlugin } from "esbuild-sass-plugin";
 import fs from "fs";
 import path from "path";
-import { dev } from "local-dev-server";
+import { dev, proxy } from "local-dev-server";
 import { tryFiles } from "./try-files.js";
-const [mode, from, start] = process.argv.splice(2);
+const [mode, from, start, remote] = process.argv.splice(2);
 
 const buildFrom = from ?? "./dev";
 
@@ -103,7 +103,7 @@ const options = {
   format: "esm",
   bundle: true,
   sourcemap: mode == "dev",
-  drop: mode !== "dev" ? ["console"] : [], //发布后取消console输出
+  // drop: mode !== "dev" ? ["console"] : [], //发布后取消console输出
   dropLabels: mode !== "dev" ? ["DEV", "TEST"] : [], //发布去除这些标签代码
   minify: true,
   charset: "utf8",
@@ -161,7 +161,7 @@ if (mode == "dev") {
     {
       root: buildFrom,
       home: `/${start}/`,
-      response(filePath, res, { reqDir, fileName, extName }) {
+      response(filePath, res, { reqDir, fileName, extName, req }) {
         if (fs.existsSync(filePath)) {
           return false;
         }
@@ -181,16 +181,34 @@ if (mode == "dev") {
           res.end(outfile.contents);
           return true;
         }
+        if (reqDir.startsWith("/node_modules/")) {
+          const tryFilePath = tryFiles(".", { reqDir, fileName, extName });
+          if (fs.existsSync(tryFilePath)) {
+            fs.createReadStream(tryFilePath).pipe(res);
+            return true;
+          }
+        }
+        if (remote !== "remote") {
+          const tryFilePath = tryFiles(pkg.target, {
+            reqDir,
+            fileName,
+            extName,
+          });
 
-        const tryFilePath = tryFiles(
-          reqDir.startsWith("/node_modules/") ? "." : pkg.target,
-          { reqDir, fileName, extName }
-        );
-
-        //开发目录查找不到，进入pub目录查找
-        if (fs.existsSync(tryFilePath)) {
-          fs.createReadStream(tryFilePath).pipe(res);
-          return true;
+          //开发目录查找不到，进入pub目录查找
+          if (fs.existsSync(tryFilePath)) {
+            fs.createReadStream(tryFilePath).pipe(res);
+            return true;
+          }
+        } else {
+          //remote 模式
+          const remoteServer = pkg.dev.remotes.find(({ from }) =>
+            reqDir.startsWith(from)
+          );
+          if (remoteServer) {
+            proxy(req, res, remoteServer);
+            return true;
+          }
         }
 
         return false;
