@@ -13,12 +13,6 @@ export const WpaAppContainerTag = "large-wpa-app-container";
 
 @tag(WpaAppContainerTag)
 class WpaAppContainer extends WpaContainer implements IAppContainer {
-  static css = `
-  :host{
-    display: block;
-
-  }
-  `;
   props = {
     app: null as IApp,
     props: null as any,

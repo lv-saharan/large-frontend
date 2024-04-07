@@ -1,8 +1,22 @@
 import { AppType, IApp, IContainer, IHost, IResource } from "definitions";
 import { isEmptyOrNullString } from "implements/common/Util";
 import { h, tag, render, Component } from "wpa";
-
+import { css } from "wpa-ui";
 export class WpaContainer extends Component implements IContainer {
+  static css = [
+    css.getCSSStyleSheets(
+      "reboot",
+      "tables",
+      "utilities",
+      "forms",
+      "buttons",
+      "button-group",
+      "grid",
+      "scrollbar",
+      "card",
+      "progress"
+    ),
+  ];
   get on() {
     return this.host.on;
   }

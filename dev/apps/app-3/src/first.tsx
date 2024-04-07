@@ -27,6 +27,7 @@ export const render: IRender = (container: IAppContainer) => {
   return (
     <div>
       第三个App3 定义，使用自定义组件的多个版本
+      <button class="btn btn-primary">hello</button>
       <fieldset>
         <legend>C1 组件1.0.0</legend>
         <c1.manifest.tag />
