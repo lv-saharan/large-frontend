@@ -1,0 +1,1 @@
+var r="1.0.0";var o={version:"1.0.0"};var Ir={manifest:{assetType:"IMAGE",get src(){return new URL("./images/app.png",import.meta.url).href},name:"app",resourceType:"ASSET",version:o.version,definitionVersion:r}};export{Ir as app};

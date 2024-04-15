@@ -1,5 +1,5 @@
 import { ICssManifest } from "./ICssManifest";
-import { IResource } from "../common/IResource";
+import { IResource } from "../common";
 
 /**
  * CSS Resource

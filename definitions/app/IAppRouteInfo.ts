@@ -1,6 +1,6 @@
 /**
  * 注册应用信息
- * 
+ *
  */
 export interface IAppRouteInfo {
   /**
@@ -25,4 +25,15 @@ export interface IAppRouteInfo {
    * App 路由优先级，数值越大优先级越改
    */
   readonly priority?: number;
+
+  /**
+   * 子路由
+   */
+  readonly children?: IAppRouteInfo[];
+
+  /**
+   * 自定义属性
+   */
+  readonly [key: string]: any;
+
 }

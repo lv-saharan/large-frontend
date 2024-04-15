@@ -3,6 +3,12 @@ import { IApp } from "./IApp";
 import { IAppRouteInfo } from "./IAppRouteInfo";
 
 export interface IAppContainer extends IContainer {
-  app: IApp;
-  routeInfo: IAppRouteInfo;
+  /**
+   * App 实例
+   */
+  readonly app: IApp;
+  /**
+   * 当前实例的路由信息
+   */
+  readonly routeInfo: IAppRouteInfo;
 }

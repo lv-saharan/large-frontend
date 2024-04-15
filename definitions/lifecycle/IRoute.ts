@@ -1,4 +1,4 @@
-import { IApp } from "definitions/app";
+import { IApp } from "../app";
 
 export interface IOnRouteCallback {
   (app: IApp, path: string, params?: object): boolean | void;

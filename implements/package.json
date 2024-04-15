@@ -1,21 +1,25 @@
 {
   "name": "large-frontend-implements",
   "version": "1.0.0",
-  "description": "implements the basic interface",
-  "main": "index.ts",
+  "description": "large-frontend-implements, 实现大前端框架的各个功能",
+  "author": "jun",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node scripts/build.js dev",
+    "remote": "node scripts/build.js remote",
+    "build": "node scripts/build.js prod",
+    "pub": "node scripts/build.js pub"
   },
-  "repository": {
-    "type": "git",
-    "url": "lv-saharan/large-frontend"
+  "dependencies": {
+    "mitt": "^3.0.1",
+    "wpa": "^1.0.13",
+    "wpa-ui": "^1.0.10"
   },
-  "keywords": [
-    "large",
-    "frontend",
-    "micro",
-    "large-frontend"
-  ],
-  "author": "lv-saharan",
-  "license": "MIT"
+  "devDependencies": {
+    "@types/node": "20.11.20",
+    "@types/node-sass": "^4.11.7",
+    "esbuild": "0.19.11",
+    "esbuild-sass-plugin": "^2.10.0",
+    "local-dev-server": "^1.0.27"
+  }
 }

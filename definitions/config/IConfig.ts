@@ -1,4 +1,3 @@
-import { AssetType } from "definitions/type/AssetType";
 import { IConfigManifest } from "./IConfigManifest";
 import { IResource } from "../common/IResource";
 /**

@@ -3,23 +3,5 @@
   "version": "1.0.0",
   "description": "large-frontend",
   "author": "jun",
-  "type": "module",
-  "scripts": {
-    "start": "node scripts/build.js dev",
-    "remote": "node scripts/build.js remote",
-    "build": "node scripts/build.js prod",
-    "pub": "node scripts/build.js pub"
-  },
-  "dependencies": {
-    "mitt": "^3.0.1",
-    "wpa": "^1.0.13",
-    "wpa-ui": "^1.0.10"
-  },
-  "devDependencies": {
-    "@types/node": "20.11.20",
-    "@types/node-sass": "^4.11.7",
-    "esbuild": "0.19.11",
-    "esbuild-sass-plugin": "^2.10.0",
-    "local-dev-server": "^1.0.25"
-  }
+  "type": "module"
 }

@@ -11,15 +11,18 @@ import {
 } from "./ILoad";
 import { IRegisterApps } from "./IRegisterApps";
 import { IOnAfterRoute, IOnBeforeRoute, IOnRoute } from "../lifecycle/IRoute";
-import { IMessage, IMessageEmit, IMessageOff, IMessageOn } from "definition";
+import { IMessage } from "../message";
 
-export interface IWindow {}
+export interface IWindow extends Window {
+  
+}
 
 export interface IDocument {}
 
 /**
  * 宿主，提供宿主相关的服务
  * 多个宿主可以同时存在
+ * 
  */
 export interface IHost extends IMessage<string> {
   /**
@@ -30,7 +33,7 @@ export interface IHost extends IMessage<string> {
   /**
    * 当前路径
    */
-  readonly currPath: string;
+  readonly activePath: string;
   /**
    * 加载的应用
    */
@@ -47,6 +50,12 @@ export interface IHost extends IMessage<string> {
    */
   getAppByRoute: (route: string) => Promise<IApp>;
 
+  /**
+   * 获取App对应的路由信息
+   * @param app
+   * @returns
+   */
+  getAppRouteInfo: (app: IApp) => IAppRouteInfo;
   /**
    * 路由到指定路径
    * @param route

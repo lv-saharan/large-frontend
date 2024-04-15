@@ -1,5 +1,5 @@
 import { IFunctionManifest } from "./IFunctionManifest";
-import { IResource } from "../common/IResource";
+import { IResource } from "../common";
 
 /**
  * 函数接口
@@ -8,8 +8,9 @@ import { IResource } from "../common/IResource";
 export interface IFunction extends IResource<IFunctionManifest> {
   /**
    * 执行函数
-   * @param args 
-   * @returns 
+   * @param args
+   * @returns
    */
-  exec: <T>(...args: any[]) => T;
+  // exec: <T>(...args: any[]) => T;
+  <T>(...args: any[]): T;
 }

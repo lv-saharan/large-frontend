@@ -1,4 +1,4 @@
-import { AssetType } from "definitions/type";
+import { AssetType } from "../type";
 import { IManifest } from "../common/IManifest";
 
 /**

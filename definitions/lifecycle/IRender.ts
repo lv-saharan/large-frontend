@@ -1,7 +1,4 @@
-import { IAppContainer, IApp } from "definitions/app";
-import { IAssetContainer } from "definitions/asset/IAssetContainer";
-import { IContainer } from "definitions/common";
-import { IComponentContainer } from "definitions/component";
+import { IContainer } from "../common";
 
 /**
  * 创建自己的对象

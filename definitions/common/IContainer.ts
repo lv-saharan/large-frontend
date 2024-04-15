@@ -1,4 +1,4 @@
-import { IMessage, IMessageEmit, IMessageOff, IMessageOn } from "definition";
+import { IMessage } from "../message";
 import { IHost } from "./IHost";
 import { IRegisterCsses } from "./IRegisterCsses";
 import { IRegisterStyleSheets } from "./IRegisterStyleSheets";

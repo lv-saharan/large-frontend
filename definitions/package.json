@@ -1,5 +1,5 @@
 {
-  "name": "large-frontend-definitions",
+  "name": "large-frontend",
   "version": "1.0.0",
   "description": "define the basic interface",
   "main": "index.ts",
@@ -13,7 +13,7 @@
   "keywords": [
     "large",
     "frontend",
-    "micro",
+    "micro-frontend",
     "large-frontend"
   ],
   "author": "lv-saharan",

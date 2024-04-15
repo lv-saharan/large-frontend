@@ -1,4 +1,4 @@
-import { IManifest } from "../common/IManifest";
+import { IManifest } from "../common";
 
 /**
  * CSS Manifest

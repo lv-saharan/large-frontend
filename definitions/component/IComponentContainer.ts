@@ -1,4 +1,4 @@
-import { IContainer } from "definitions/common";
+import { IContainer } from "../common";
 import { IComponent } from "./IComponent";
 
 /**

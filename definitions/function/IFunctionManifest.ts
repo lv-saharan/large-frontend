@@ -1,3 +1,3 @@
-import { IManifest } from "../common/IManifest";
+import { IManifest } from "../common";
 
 export interface IFunctionManifest extends IManifest {}
