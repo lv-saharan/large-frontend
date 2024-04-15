@@ -10,7 +10,7 @@ import {
   IMessageOn,
   IResource,
 } from "definitions";
-import { IAssetContainer } from "definitions/asset/IAssetContainer";
+import { IAssetContainer } from "definitions";
 import { isNullOrEmpty } from "/functions/string";
 import { h, tag, render, Component } from "wpa";
 import { Container } from "./Container";

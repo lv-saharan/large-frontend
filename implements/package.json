@@ -5,6 +5,7 @@
   "author": "jun",
   "type": "module",
   "scripts": {
+    "check": "tsc --noEmit",
     "start": "node scripts/build.js dev",
     "remote": "node scripts/build.js remote",
     "build": "node scripts/build.js prod",

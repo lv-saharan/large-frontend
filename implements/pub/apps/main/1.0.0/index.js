@@ -8,6 +8,8 @@ var b=Object.defineProperty;var v=Object.getOwnPropertyDescriptor;var p=(n,i,e,o
 aside {
   width: 50rem;
   font-size: 3rem;
+  background-color: rgb(45, 45, 45);
+  color: white;
 }
 aside ul {
   padding-left: 6rem;
@@ -41,6 +43,4 @@ main {
 
 body {
   margin: 0;
-  background-color: rgb(45, 45, 45);
-  color: white;
 }`;console.log(h.manifest,g.manifest);console.log(h(123),g(new Date));var a=new C(R);var r=class extends w{constructor(){super(...arguments);this.css=d}async install(){this.menus=A.menus,a.registerApps(...this.menus),a.onRoute((e,o,t)=>{console.log("onRoute",e,o,t),this.updateSelf()}),a.onBeforeRoute((e,o,t)=>{if(console.log("onBeforeRoute",e,o,t),e.manifest.name==="SECOND-APP")return confirm("是否进入SECOND App？")}),a.routeTo(a.activePath)}buildNavs(e){return s("ul",null,e.map(o=>s("li",null,s("a",{href:`#${o.path}`},o.name),o.children&&this.buildNavs(o.children))))}render(){return s(s.f,null,s("aside",null,this.buildNavs(this.menus)),s("main",null,a.loadedApps.map(e=>s(I,{app:e,host:a,class:x("app-container",{hidden:a.activeApp.manifest!==e.manifest})}))))}};r=p([y("simple-app")],r);u(s("simple-app",{"theme-css":c}),document.body);u(s("style",null,f),document.head);
