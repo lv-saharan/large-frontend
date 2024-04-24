@@ -1,0 +1,12 @@
+// Required
+
+@import "~bootstrap/scss/mixins/banner";
+@include bsBanner("bootstrap");
+
+@import "~bootstrap/scss/functions";
+// $prefix: large-;
+// Required
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/maps";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/utilities";

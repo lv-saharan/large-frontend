@@ -26,4 +26,9 @@ export enum ResourceType {
    * 资源
    */
   ASSET = "ASSET",
+
+  /**
+   * 服务
+   */
+  SERVICE = "SERVICE",
 }

@@ -14,7 +14,7 @@ var x = (r, o, t, f) => {
 };
 var I = {};
 a(I, { manifest: () => c });
-import { h as V, tag as g, Component as R } from "/libs/wpa/latest/wpa.js";
+import { h as V, tag as g, Component as R } from "/libs/wpa/";
 var C = "1.0.0";
 var s = "1.0.0";
 var U = "com.hh.ui.basic";
@@ -37,7 +37,7 @@ var c = m("c1"),
 n = x([g(c.tag)], n);
 var N = {};
 a(N, { manifest: () => u });
-import { h as l, tag as A, Component as h } from "/libs/wpa/latest/wpa.js";
+import { h as l, tag as A, Component as h } from "/libs/wpa/";
 var u = m("c2"),
   p = class extends h {
     render() {

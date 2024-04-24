@@ -9,6 +9,7 @@ import {
 } from "definitions";
 import { AppSharedInfo } from "../../app-shared-info";
 
+import * as icons from "/assets/icons";
 export const render: IRender = (container: IContainer) => {
   container.registerCsses(`
     iframe{
@@ -18,7 +19,7 @@ export const render: IRender = (container: IContainer) => {
     }
   `);
   const iframe = document.createElement("iframe");
-  iframe.src = import.meta.url;
+  iframe.src = icons.app.manifest.src;
   return iframe;
 };
 

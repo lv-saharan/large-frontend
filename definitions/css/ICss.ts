@@ -5,5 +5,8 @@ import { IResource } from "../common";
  * CSS Resource
  */
 export interface ICss extends IResource<ICssManifest> {
-  css: CSSStyleSheet;
+  /**
+   * CSS StyleSheet
+   */
+  cssss: CSSStyleSheet;
 }

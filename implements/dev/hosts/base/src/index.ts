@@ -23,7 +23,7 @@ import {
   IOnRouteCallback,
   IResource,
 } from "definitions";
-import { isNullOrEmpty, trim } from "/functions/string";
+import { isNullOrEmpty, trim } from "/commons/string";
 import mitt, { EventType, Handler } from "mitt";
 
 export default class Host implements IHost {
@@ -41,11 +41,6 @@ export default class Host implements IHost {
   activeApp: IApp;
 
   load: ILoad;
-  loadConfigs: ILoadConfigs;
-  loadCsses: ILoadCsses;
-  loadAssets: ILoadAssets;
-  loadComponents: ILoadComponents;
-  loadFunctions: ILoadFunctions;
   loadApps: ILoadApps;
 
   private onRouteCallbacks: IOnRouteCallback[] = [];
@@ -62,12 +57,6 @@ export default class Host implements IHost {
   constructor(load: ILoad) {
     this.load = load;
     this.loadApps = load<IApp>;
-    this.loadAssets = load<IAsset>;
-    this.loadComponents = load<IComponent>;
-    this.loadCsses = load<ICss>;
-    this.loadFunctions = load<IFunction>;
-    this.loadConfigs = load<IConfig>;
-
     window.addEventListener("hashchange", async (e) => {
       const matched = await this.getAppByRoute(this.activePath);
       if (matched) {
@@ -83,7 +72,8 @@ export default class Host implements IHost {
 
         for (let cb of this.onBeforeRouteCallbacks) {
           if (cb(matched, path, params) === false) {
-            console.log("beforeRoute canceled");
+            history.back();
+            // console.log("beforeRoute canceled");
             return;
           }
         }

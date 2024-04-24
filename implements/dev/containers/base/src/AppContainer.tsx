@@ -5,7 +5,7 @@ import {
   IAppRouteInfo,
   IHost,
 } from "definitions";
-import { isNullOrEmpty } from "/functions/string";
+import { isNullOrEmpty } from "/commons/string";
 import { h, tag, render, Component } from "wpa";
 import { Container } from "./Container";
 

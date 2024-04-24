@@ -26,7 +26,7 @@
     "paths": {
       // "definitions": ["http://127.0.0.1:5500/definitions/index.ts"], //download from
       // "definitions":["D:\\devs\\large-frontend\\definitions\\index.ts"], //映射磁盘驱动器
-      "definitions": ["../definitions/index.ts"],
+      "definitions": ["node_modules/large-frontend/index.ts"],
       "/*": ["dev/*/src", "pub/*/latest", "pub/*"]
     }
   }

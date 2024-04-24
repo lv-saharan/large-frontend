@@ -3,6 +3,8 @@ import esbuild from "esbuild";
 import { sassPlugin } from "esbuild-sass-plugin";
 import fs from "fs";
 import path from "path";
+import mime from "mime";
+
 import { dev, proxy } from "local-dev-server";
 
 const [mode = "dev", from = "./dev", start = "apps/main"] =
@@ -13,6 +15,7 @@ const buildFrom = from;
 if (!fs.existsSync(buildFrom)) {
   throw new Error(`Directory ${buildFrom} does not exist.`);
 }
+
 const config = {
   entryRoots: fs
     .readdirSync(buildFrom)
@@ -26,8 +29,70 @@ const config = {
   copyFolders: pkg.copyFolders,
   entryPoints: pkg.entryPoints,
 };
+console.info("Config", config);
 
-console.log("Config", config);
+const options = {
+  jsxFactory: "h",
+  jsxFragment: "h.f",
+  format: "esm",
+  bundle: true,
+  sourcemap: mode == "dev",
+  // drop: mode !== "dev" ? ["console"] : [], //发布后取消console输出
+  dropLabels: mode !== "dev" ? ["DEV", "TEST"] : [], //发布去除这些标签代码
+  minify: true,
+  charset: "utf8",
+  outbase: "/",
+  external: pkg.externals,
+  plugins: [
+    // checkerPlugin,
+    {
+      name: "external",
+      setup(build) {
+        //define global externals
+        const externalRules = [];
+        for (let [key, rule] of Object.entries(pkg.externalRules ?? {})) {
+          //是否远程打包进来 fetch js 直接打包进来小功能
+          const buildIn = rule.buildIn ?? false;
+          const path = typeof rule === "string" ? rule : rule[mode];
+
+          externalRules.push({
+            filter: new RegExp(key),
+            path,
+          });
+        }
+        // console.info("externalRules");
+        // console.table(externalRules);
+        for (let rule of externalRules) {
+          build.onResolve({ filter: rule.filter }, (args) => {
+            console.info(
+              "find rule",
+              rule,
+              args.path,
+              args.path.replace(rule.filter, rule.path)
+            );
+            return {
+              path: args.path.replace(rule.filter, rule.path),
+              external: true,
+            };
+          });
+        }
+      },
+    },
+    sassPlugin({
+      filter: /css[\/\\]src/,
+      type: "css",
+      sourceMap: mode == "dev",
+      style: mode == "dev" ? "expanded" : "compressed",
+    }),
+    sassPlugin({
+      filter: /.(s[ac]ss|css)$/,
+      type: "css-text",
+      sourceMap: false,
+      style: mode == "dev" ? "expanded" : "compressed",
+    }),
+  ],
+  loader: {},
+};
 
 function findEntryPoints(dirPath) {
   const dirStat = fs.statSync(dirPath);
@@ -35,7 +100,7 @@ function findEntryPoints(dirPath) {
     //check src
     if (dirPath.endsWith("/css/src") || dirPath.endsWith("\\css\\src")) {
       fs.readdirSync(dirPath).forEach((file) => {
-        if (file.endsWith(".scss")) {
+        if (file.endsWith(".scss") && !file.startsWith("_")) {
           const filePath = path.join(dirPath, file);
           entryPoints.push(filePath);
         }
@@ -58,72 +123,14 @@ function findEntryPoints(dirPath) {
   }
   return [];
 }
+
 const entryPoints = [];
 //find all entry points
 config.entryRoots.forEach((dir) => {
   entryPoints.push(...findEntryPoints(dir));
 });
-
-console.log("EntryPoints", entryPoints);
-
-//define global externals
-const externalRules = [];
-for (let [key, rule] of Object.entries(pkg.externalRules ?? {})) {
-  //是否远程打包进来 fetch js 直接打包进来小功能
-  const buildIn = rule.buildIn ?? false;
-  const path = typeof rule === "string" ? rule : rule[mode];
-
-  externalRules.push({
-    filter: new RegExp(key),
-    path,
-  });
-}
-
-const externalPlugin = {
-  name: "external",
-  setup(build) {
-    for (let rule of externalRules) {
-      build.onResolve({ filter: rule.filter }, (args) => {
-        console.log(
-          "find rule",
-          rule,
-          args.path.replace(rule.filter, rule.path)
-        );
-        return {
-          path: args.path.replace(rule.filter, rule.path),
-          external: true,
-        };
-      });
-    }
-  },
-};
-
-const options = {
-  jsxFactory: "h",
-  jsxFragment: "h.f",
-  format: "esm",
-  bundle: true,
-  sourcemap: mode == "dev",
-  // drop: mode !== "dev" ? ["console"] : [], //发布后取消console输出
-  dropLabels: mode !== "dev" ? ["DEV", "TEST"] : [], //发布去除这些标签代码
-  minify: true,
-  charset: "utf8",
-  outbase: "/",
-  external: pkg.externals,
-  plugins: [
-    // checkerPlugin,
-    externalPlugin,
-    sassPlugin({
-      filter: /css[\/\\]src/,
-      type: "css",
-    }),
-    sassPlugin({
-      filter: /.(s[ac]ss|css)$/,
-      type: "css-text",
-    }),
-  ],
-  loader: {},
-};
+console.info("EntryPoints");
+console.table(entryPoints);
 
 /**
  * 这些路径尝试重定向到latest
@@ -142,10 +149,11 @@ function tryFiles(root, { reqDir, fileName, extName }) {
   }
   const paths = reqDir.split("/");
   for (let dir of tryDirs) {
+    const newPaths = [...paths];
     const index = paths.indexOf(dir);
     if (index != -1) {
-      paths.splice(index, 0, "latest");
-      filePath = path.join(root, paths.join("/"), `${fileName}${extName}`);
+      newPaths.splice(index, 0, "latest");
+      filePath = path.join(root, newPaths.join("/"), `${fileName}${extName}`);
       if (fs.existsSync(filePath)) {
         return filePath;
       }
@@ -167,15 +175,89 @@ if (mode == "dev" || mode == "remote") {
       {
         name: "watch-plugin",
         setup(build) {
+          let firstBuild = true;
+          let reload = null;
+          let buildResult = null;
+
           build.onStart(() => {
-            console.log(
-              "starting build.............................................."
-            );
+            console.info("start building ".padEnd(64, "."));
           });
           build.onEnd((result) => {
             if (result.errors.length == 0) {
               buildResult = result;
-              reload("[app rebuild ok]");
+              if (firstBuild) {
+                firstBuild = false;
+                console.info("start http server".padEnd(64, "."));
+
+                const devResult = dev(
+                  {
+                    root: buildFrom,
+                    home: `/${start}/`,
+                    response(
+                      filePath,
+                      res,
+                      { reqDir, fileName, extName, req }
+                    ) {
+                      if (fs.existsSync(filePath)) {
+                        return false;
+                      }
+                      const outfile = buildResult?.outputFiles.find(
+                        (file) => file.path == filePath
+                      );
+                      res.setHeader(
+                        "Content-Type",
+                        `${mime.getType(filePath)};charset=utf-8`
+                      );
+
+                      if (outfile) {
+                        res.end(outfile.contents);
+                        return true;
+                      }
+                      if (reqDir.startsWith("/node_modules/")) {
+                        const tryFilePath = tryFiles(".", {
+                          reqDir,
+                          fileName,
+                          extName,
+                        });
+                        if (fs.existsSync(tryFilePath)) {
+                          fs.createReadStream(tryFilePath).pipe(res);
+                          return true;
+                        }
+                      }
+                      if (mode !== "remote") {
+                        const tryFilePath = tryFiles(pkg.target, {
+                          reqDir,
+                          fileName,
+                          extName,
+                        });
+
+                        //开发目录查找不到，进入pub目录查找
+                        if (fs.existsSync(tryFilePath)) {
+                          fs.createReadStream(tryFilePath).pipe(res);
+                          return true;
+                        }
+                      } else {
+                        //remote 模式
+                        const remoteServer = pkg.dev.remotes.find(({ from }) =>
+                          reqDir.startsWith(from)
+                        );
+                        if (remoteServer) {
+                          proxy(req, res, remoteServer);
+                          return true;
+                        }
+                      }
+
+                      return false;
+                    },
+                    ...pkg.dev.server,
+                  },
+                  pkg.dev.apis
+                );
+                // console.log("reload", devResult);
+                reload = devResult.reload;
+              } else {
+                reload("[app rebuild ok]");
+              }
             } else {
               console.log("build error", result.errors);
             }
@@ -185,71 +267,10 @@ if (mode == "dev" || mode == "remote") {
       ...options.plugins,
     ],
   };
-  let buildResult = null;
 
   const ctx = await esbuild.context(devOptions);
-  const { reload } = dev(
-    {
-      root: buildFrom,
-      home: `/${start}/`,
-      response(filePath, res, { reqDir, fileName, extName, req }) {
-        if (fs.existsSync(filePath)) {
-          return false;
-        }
-        const outfile = buildResult?.outputFiles.find(
-          (file) => file.path == filePath
-        );
-        let type = "text/html";
-        if (/\.js$/.test(filePath)) {
-          type = "application/javascript";
-        }
-        if (/\.css$/.test(filePath)) {
-          type = "text/css";
-        }
-        res.setHeader("Content-Type", `${type};charset=utf-8`);
-
-        if (outfile) {
-          res.end(outfile.contents);
-          return true;
-        }
-        if (reqDir.startsWith("/node_modules/")) {
-          const tryFilePath = tryFiles(".", { reqDir, fileName, extName });
-          if (fs.existsSync(tryFilePath)) {
-            fs.createReadStream(tryFilePath).pipe(res);
-            return true;
-          }
-        }
-        if (mode !== "remote") {
-          const tryFilePath = tryFiles(pkg.target, {
-            reqDir,
-            fileName,
-            extName,
-          });
-
-          //开发目录查找不到，进入pub目录查找
-          if (fs.existsSync(tryFilePath)) {
-            fs.createReadStream(tryFilePath).pipe(res);
-            return true;
-          }
-        } else {
-          //remote 模式
-          const remoteServer = pkg.dev.remotes.find(({ from }) =>
-            reqDir.startsWith(from)
-          );
-          if (remoteServer) {
-            proxy(req, res, remoteServer);
-            return true;
-          }
-        }
-
-        return false;
-      },
-      ...pkg.dev.server,
-    },
-    pkg.dev.apis
-  );
   await ctx.watch();
-  console.log("watching.........................................");
+  console.info("start watching ".padEnd(64, "."));
 } else if (mode == "pub") {
   const { reload } = dev({
     port: pkg.pub.server.port,
@@ -259,15 +280,8 @@ if (mode == "dev" || mode == "remote") {
       if (fs.existsSync(filePath)) {
         return false;
       }
-      //有这个目录
-      let type = "text/html";
-      if (/\.js$/.test(filePath)) {
-        type = "application/javascript";
-      }
-      if (/\.css$/.test(filePath)) {
-        type = "text/css";
-      }
-      res.setHeader("Content-Type", `${type};charset=utf-8`);
+
+      res.setHeader("Content-Type", `${mime.getType(filePath)};charset=utf-8`);
 
       const tryFilePath = tryFiles(
         reqDir.startsWith("/node_modules/") ? "." : pkg.target,
@@ -357,6 +371,7 @@ if (mode == "dev" || mode == "remote") {
         recursive: true,
       });
     }
+    console.info("entry build ok", entry);
     // console.log("build result", result);
   }
 

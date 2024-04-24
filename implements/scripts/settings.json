@@ -3,7 +3,7 @@
   "defaultVersion": "1.0.0",
   "copyFolders": ["assets", "images", "workers"],
   "entryPoints": ["index.js", "index.ts", "index.jsx", "index.tsx"],
-  "excludeEntryFolders": ["node_modules", "dist", "pub"],
+  "excludeEntryFolders": ["node_modules", "libs", "csses"],
   "externals": [
     "*.png",
     "*.jpg",
@@ -19,16 +19,16 @@
   ],
   "externalRules": {
     "^wpa$": {
-      "prod": "/libs/wpa/latest/wpa.js",
-      "remote": "/node_modules/wpa/dist/wpa.js",
-      "dev": "/node_modules/wpa/dist/wpa.js"
+      "prod": "/libs/wpa/",
+      "remote": "/libs/wpa/",
+      "dev": "/libs/wpa/"
     },
-    "^wpa-ui$": "/node_modules/wpa-ui/dist/wpa-ui.js",
+    "^wpa-ui$": "/libs/wpa-ui/",
     "^vue@2.7.16": "/libs/vue/2.7.16/esm/vue.min.js",
     "^/(.+)": {
       "buildIn": false,
-      "dev": "/$1/index.js",
-      "remote": "/$1/index.js",
+      "dev": "/$1/",
+      "remote": "/$1/",
       "prod": "/$1/"
     }
   },

@@ -13,16 +13,14 @@ import { IRegisterApps } from "./IRegisterApps";
 import { IOnAfterRoute, IOnBeforeRoute, IOnRoute } from "../lifecycle/IRoute";
 import { IMessage } from "../message";
 
-export interface IWindow extends Window {
-  
-}
+export interface IWindow extends Window {}
 
 export interface IDocument {}
 
 /**
  * 宿主，提供宿主相关的服务
  * 多个宿主可以同时存在
- * 
+ *
  */
 export interface IHost extends IMessage<string> {
   /**
@@ -64,42 +62,21 @@ export interface IHost extends IMessage<string> {
    */
   routeTo: <T>(path: string, params?: object) => Promise<T> | void;
 
+  /**
+   * 发生路由
+   */
   onRoute: IOnRoute;
+  /**
+   * 路由执行前
+   */
   onBeforeRoute: IOnBeforeRoute;
+  /**
+   * 路由执行后
+   */
   onAfterRoute: IOnAfterRoute;
 
   /**
    * 从一个地址加载应用
    */
   loadApps: ILoadApps;
-
-  /**
-   * 加载样式
-   * 很多时候都是静态加载
-   */
-  loadCsses: ILoadCsses;
-  /**
-   * 加载资源
-   * 很多时候都是静态加载
-   */
-  loadAssets: ILoadAssets;
-  /**
-   * 加载组件
-   * 很多时候都是静态加载
-   */
-  loadComponents: ILoadComponents;
-  /**
-   * 加载函数
-   * 很多时候都是静态加载
-   */
-  loadFunctions: ILoadFunctions;
-
-  /**
-   * 加载配置文件
-   */
-  loadConfigs: ILoadConfigs;
-  /**
-   * 加载IResource资源
-   */
-  load: ILoad;
 }

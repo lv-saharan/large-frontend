@@ -1,23 +1,30 @@
 import { h, tag, render, Component, classNames } from "wpa";
 import { config } from "/configs/apps";
-import { currencyFormatter, dateFormatter } from "/functions/formatter";
+
+import { currencyFormatter, dateFormatter } from "/commons/formatter";
 import BaseHost from "/hosts/base";
-import { esLoad } from "/functions/loader";
+import { esLoad } from "/commons/loader";
 import { IAppRouteInfo } from "definitions";
 import { AppContainerTag } from "/containers/base";
+
+import reboot from "/csses/bootstrap/reboot";
+import root from "/csses/bootstrap/root";
+
+
+
 //集成函数
 console.log(currencyFormatter.manifest, dateFormatter.manifest);
 console.log(currencyFormatter(123), dateFormatter(new Date()));
 
 import css from "./index.scss";
-
 const host = new BaseHost(esLoad);
 
 const home = "/app-1";
 
-@tag("simple-app")
-class SimpleApp extends Component {
-  css = css;
+const AppTag = "main-app";
+@tag(AppTag)
+class MainApp extends Component {
+  static css = [reboot.cssss, css];
   private menus: IAppRouteInfo[];
 
   async install() {
@@ -50,10 +57,17 @@ class SimpleApp extends Component {
 
   private buildNavs(infos: IAppRouteInfo[]) {
     return (
-      <ul>
+      <ul class="nav">
         {infos.map((info) => (
           <li>
-            <a href={`#${info.path}`}>{info.name}</a>
+            <a
+              className={classNames({
+                active: host.getAppRouteInfo(host.activeApp) === info,
+              })}
+              href={`#${info.path}`}
+            >
+              {info.name}
+            </a>
             {info.children && this.buildNavs(info.children)}
           </li>
         ))}
@@ -63,13 +77,14 @@ class SimpleApp extends Component {
   render() {
     return (
       <>
+        <header>Main</header>
         <aside>{this.buildNavs(this.menus)}</aside>
-        <main>
+        <main class="scrollable">
           {host.loadedApps.map((app) => (
             <AppContainerTag
               app={app}
               host={host}
-              class={classNames("app-container", {
+              class={classNames("app-container", "scrollable", {
                 hidden: host.activeApp.manifest !== app.manifest,
               })}
             ></AppContainerTag>
@@ -85,11 +100,12 @@ class SimpleApp extends Component {
  */
 import themeCss from "./theme.scss";
 
-render(<simple-app theme-css={themeCss}></simple-app>, document.body);
+render(<AppTag theme-css={themeCss}></AppTag>, document.body);
 
 /**
  * 全局样式
  */
 import globalCss from "./global.scss";
 
+document.adoptedStyleSheets.push(root.cssss, reboot.cssss);
 render(<style>{globalCss}</style>, document.head);

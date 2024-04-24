@@ -15,11 +15,11 @@ import { c1 } from "/components/basic-ui/1.0.0";
 
 import { c1 as c1_1 } from "/components/basic-ui";
 
-import { app as appIcon } from "/assets/icons/";
+import { app as appIcon } from "/assets/icons";
 
 import { manifest as secondManifest } from "./second";
 
-import { AssetContainerTag } from "/containers/base/";
+import { AssetContainerTag } from "/containers/base";
 export const render: IRender = (container: IAppContainer) => {
   container.registerCsses(`
     :host{
@@ -47,7 +47,10 @@ export const render: IRender = (container: IAppContainer) => {
         <c1_1.manifest.tag />
       </fieldset>
       <a href={`#${container.routeInfo.path}/${secondManifest.path}`}>
-        <h3>进入应用3的子应用</h3>
+        <h3>
+          <img src={appIcon.manifest.src} style={{ width: "3rem" }} />
+          进入应用3的子应用
+        </h3>
       </a>
       <div class="asset">
         <h2>导入一个资源</h2>

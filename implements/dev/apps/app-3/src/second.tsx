@@ -9,6 +9,7 @@ import {
 import { h, tag, Component } from "wpa";
 
 import { AppSharedInfo } from "../../app-shared-info";
+import { app as appIcon } from "/assets/icons";
 
 export const render: IRender = (container: IAppContainer) => {
   container.registerCsses(`
@@ -25,7 +26,7 @@ export const render: IRender = (container: IAppContainer) => {
   return (
     <div>
       <h2>应用3的子应用</h2>
-      <a href={`#${container.routeInfo.path}`}><h3>返回应用3主应用</h3></a>
+      <a href={`#${container.routeInfo.path}`}><h3> <img src={appIcon.manifest.src} style={{ width: "3rem" }} />返回应用3主应用</h3></a>
     </div>
   );
 };

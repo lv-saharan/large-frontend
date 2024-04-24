@@ -1,20 +1,25 @@
 import { IContainer, IHost } from "definitions";
 import { h, tag, render, Component } from "wpa";
 import { css } from "wpa-ui";
+import reboot from "/csses/bootstrap/reboot"
+import tables from "/csses/bootstrap/tables";
+import utilities from "/csses/bootstrap/utilities";
+import forms from "/csses/bootstrap/forms";
+import buttons from "/csses/bootstrap/buttons";
+import grid from "/csses/bootstrap/grid";
+import card from "/csses/bootstrap/card";
+import progress from "/csses/bootstrap/progress";
+
 export class Container extends Component implements IContainer {
   static css = [
-    css.getCSSStyleSheets(
-      "reboot",
-      "tables",
-      "utilities",
-      "forms",
-      "buttons",
-      "button-group",
-      "grid",
-      "scrollbar",
-      "card",
-      "progress"
-    ),
+    reboot.cssss,
+    utilities.cssss,
+    tables.cssss,
+    forms.cssss,
+    buttons.cssss,
+    grid.cssss,
+    card.cssss,
+    progress.cssss,
   ];
   get on() {
     return this.host.on;

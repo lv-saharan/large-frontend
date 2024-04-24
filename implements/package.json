@@ -9,12 +9,14 @@
     "start": "node scripts/build.js dev",
     "remote": "node scripts/build.js remote",
     "build": "node scripts/build.js prod",
+    "build:wpa-ui": "node scripts/build-wpa-ui.js",
     "pub": "node scripts/build.js pub"
   },
   "dependencies": {
+    "large-frontend": "^1.0.2",
     "mitt": "^3.0.1",
     "wpa": "^1.0.13",
-    "wpa-ui": "^1.0.10"
+    "wpa-ui": "^1.0.13"
   },
   "devDependencies": {
     "@types/node": "20.11.20",

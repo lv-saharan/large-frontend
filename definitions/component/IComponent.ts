@@ -8,11 +8,7 @@ import { IComponentContainer } from "./IComponentContainer";
 /**
  * 组件接口，
  */
-export interface IComponent extends IResource {
-  /**
-   * 组件的配置
-   */
-  manifest: IComponentManifest;
+export interface IComponent extends IResource<IComponentManifest> {
   /**
    * 组件的渲染方法
    */
